@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Project2LinkedList
+comment0.text=\n\ Write\ a\ description\ of\ class\ LinkedList\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=Project2LinkedList()
+comment2.params=node
+comment2.target=Project2LinkedList(Project2LinkedList.LinkedListNode)
+comment3.params=data
+comment3.target=Project2LinkedList(java.lang.Object)
+comment4.params=data
+comment4.target=void\ add(java.lang.Object)
+comment5.params=
+comment5.target=int\ size()
+numComments=6
