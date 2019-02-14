@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.HashSet;
 /**
  * Class Hotel represents a hotel. It has (ArrayLists) for Rooms and Reservations.
  * 
@@ -16,8 +16,8 @@ public class Hotel
     private String name;
     private String address;
     private String phoneNumber;
-    private ArrayList<Reservation> reservations;
-    private ArrayList<Room> rooms;
+    private ProjectLinkedList<Reservation> reservations;
+    private ProjectHashMap rooms;
 
     /**
      * Hotel Constructor 1/1 (Constructor used from Main client code.)
@@ -25,8 +25,8 @@ public class Hotel
      */
     public Hotel( String fileName ) throws FileNotFoundException
     {     
-        rooms = new ArrayList<Room>();
-        reservations = new ArrayList<Reservation>();
+        rooms = new ProjectHashMap();
+        reservations = new ProjectLinkedList<Reservation>();
 
         File inFile = new File(fileName);
         input = new Scanner(inFile);
@@ -51,7 +51,7 @@ public class Hotel
         setPhoneNumber(phoneNumber);
 
         // 'fill' the room arraylist with different rooms available in the hotel
-        fillRoomArrayList();
+        fillRoomMap();
     }
 
     /* METHODS UTILIZED BY THE CONSTRUCTORS */
@@ -64,7 +64,7 @@ public class Hotel
      * @throws FileNotFoundException if the file doesn't exist or cannot be read.
      * @throws IllegalArgumentException if the file doesn't match expected format.
      */
-    public void fillRoomArrayList() throws FileNotFoundException
+    public void fillRoomMap() throws FileNotFoundException
     {
         String roomNum;
         int floor;
@@ -113,15 +113,15 @@ public class Hotel
             this.addRoom(room);
         }
     }
-    
+
     /**
-    * Adds room object to our rooms list
-    *
-    * @param room(Room) represents a room object.
-    */
+     * Adds room object to our rooms list
+     *
+     * @param room(Room) represents a room object.
+     */
     public void addRoom(Room room)
     {
-        rooms.add(room);
+        rooms.put(room.getRoomNumber(), room);
     }
 
     /**
@@ -198,7 +198,7 @@ public class Hotel
      * This method "saves" the hotel data back to the text files we read from every time the constructor is called.
      * 
      * 
-     * ArrayList of reservations needs to be sorted with canceled ones first before we save.
+     * ProjectLinkedList of reservations needs to be sorted with canceled ones first before we save.
      * This is because when the program starts and reservations 
      * are read in from the txt file, if a room is reserved with status other than canceled, 
      * then the room will be flagged unavailable, but if the same room has a canceled reservation
@@ -262,20 +262,22 @@ public class Hotel
      * A room is considered available IF there is no reservation on it, and IF there are no
      * guests checked into the room.
      *
-     * @return rms (ArrayList<Room>) ArrayList of available rooms in the hotel.
+     * @return rms (ProjectLinkedList<Room>) ProjectLinkedList of available rooms in the hotel.
      */
-    public ArrayList<Room> getEmptyRooms() 
+    public HashSet<Room> getEmptyRooms() 
     {
-        ArrayList<Room> rms = new ArrayList<Room>();
+        HashSet<String> rms = rooms.getKeySet();
+        HashSet<Room> returnSet = new HashSet<>();
 
-        for (Room rm: rooms) 
+        for (String s: rms) 
         {
-            if ( rm.isAvailable() ) 
+            Room rm = (Room)rooms.get(s);
+            if (rm.isAvailable() ) 
             {
-                rms.add(rm);
+                returnSet.add(rm);
             }
         }
-        return rms;
+        return returnSet;
     }
 
     /**
@@ -283,12 +285,11 @@ public class Hotel
      * A reserved room is considered unavailable. 
      * A room with a checked in guest is considered unavailable.
      *
-     * @return rms (ArrayList<Room>) ArrayList of unavailable rooms in the hotel.
+     * @return rms (ProjectLinkedList<Room>) ArrayList of unavailable rooms in the hotel.
      */
-    public ArrayList<Room> getReservedRoomsList()
-    {
-        ArrayList<Room> rms = new ArrayList<Room>();
+    public ProjectLinkedList<Room> getReservedRoomsList() {
 
+        ProjectLinkedList<Room> rms = new ProjectLinkedList(); 
         for (Reservation r: reservations) 
         {
             if ( r.getStatus().equals(Status.WAITING) ) 
@@ -335,9 +336,13 @@ public class Hotel
      *
      * @return rooms (ArrayList<Room>) representing all Room objects in the hotel.
      */
-    public ArrayList<Room> getAllRooms() 
+    public ProjectHashMap getAllRooms() 
     {
         return rooms;
+    }
+    
+    public ProjectLinkedList getAllRoomsList() {
+        return rooms.getValuesList();
     }
 
     /**
@@ -347,7 +352,8 @@ public class Hotel
      */
     public int getAllRoomsCount() 
     {
-        return rooms.size();
+        HashSet<String> set = rooms.getKeySet();
+        return set.size();
     }
 
     /**
@@ -358,14 +364,7 @@ public class Hotel
      */
     public Room getRoom(String roomNumber)
     {
-        for (Room rm: rooms) 
-        {
-            if (rm.getRoomNumber().equals(roomNumber)) 
-            {
-                return rm;
-            }
-        }
-        return null;
+        return (Room) rooms.get(roomNumber);
     }
 
     /**
@@ -375,9 +374,9 @@ public class Hotel
      * @param guestLastName (String) the last name to search by
      * @return reservationsByName (ArrayList<Reservation>) list of reservations whose last name matches the search criteria.
      */
-    public ArrayList<Reservation> getReservationsByLastName(String guestLastName) 
+    public ProjectLinkedList<Reservation> getReservationsByLastName(String guestLastName) 
     {
-        ArrayList<Reservation> reservationsByName = new ArrayList<Reservation>();
+        ProjectLinkedList<Reservation> reservationsByName = new ProjectLinkedList<Reservation>();
 
         for (Reservation res: reservations) 
         {
@@ -423,9 +422,9 @@ public class Hotel
      * 
      * @return ArrayList<Reservation> of all active reservations.
      */
-    public ArrayList<Reservation> getActiveReservations() 
+    public ProjectLinkedList<Reservation> getActiveReservations() 
     {
-        ArrayList<Reservation> arr = new ArrayList<Reservation>();
+        ProjectLinkedList<Reservation> arr = new ProjectLinkedList<Reservation>();
 
         for (Reservation r : reservations) 
         {
@@ -443,9 +442,9 @@ public class Hotel
      * 
      * @return ArrayList<Reservation> of all inactive reservations.
      */
-    public ArrayList<Reservation> getInactiveReservations()
+    public ProjectLinkedList<Reservation> getInactiveReservations()
     {
-        ArrayList<Reservation> arr = new ArrayList<Reservation>();
+        ProjectLinkedList<Reservation> arr = new ProjectLinkedList<Reservation>();
 
         for (Reservation r : reservations) 
         {
@@ -463,9 +462,9 @@ public class Hotel
      * 
      * @return ArrayList<String> of all 'invoices' that have been paid.
      */
-    public ArrayList<String> getAllInvoicesPaid() 
+    public ProjectLinkedList<String> getAllInvoicesPaid() 
     {
-        ArrayList<String> invoices = new ArrayList<String>();
+        ProjectLinkedList<String> invoices = new ProjectLinkedList<String>();
 
         for (Reservation res : reservations) 
         {
@@ -483,9 +482,9 @@ public class Hotel
      * 
      * @return ArrayList<String> of all 'invoices' with outstanding balance.
      */
-    public ArrayList<String> getAllInvoicesUnpaid() 
+    public ProjectLinkedList<String> getAllInvoicesUnpaid() 
     {
-        ArrayList<String> invoices = new ArrayList<String>();
+        ProjectLinkedList<String> invoices = new ProjectLinkedList<String>();
 
         for (Reservation res : reservations) 
         {
@@ -507,7 +506,7 @@ public class Hotel
     public Reservation findReservation(Guest guest)
     {
         Reservation result = null;
-        
+
         for (Reservation r: reservations)
         {
             if (r.getGuest().equals(guest))
@@ -517,7 +516,7 @@ public class Hotel
         }
         return result;
     }
-    
+
     /**
      * (overloaded method) Returns a reservation object if the room number matches a 
      * reservation that has IN OR WAITING status.
@@ -528,29 +527,29 @@ public class Hotel
     public Reservation findReservation(String roomNum)
     {
         Reservation result = null;
-        
+
         for (Reservation r: reservations) 
         {
             if (r.getRoom().getRoomNumber().equals(roomNum) && 
-                        (r.getStatus() == Status.IN || r.getStatus() == Status.WAITING))
+            (r.getStatus() == Status.IN || r.getStatus() == Status.WAITING))
             {
                 result = r;
             }
         }
-        
+
         return result;
     }
 
     /**
-    * Returns an array list of reservations with a given status.
-    *
-    * @param status (Status) gets reservations with a certain parameterized status.
-    * @return res (ArrayList<Reservation>) an ArrayList of reservations matching a certain status.
-    */
-    public ArrayList<Reservation> getReservations(Status status)
+     * Returns an array list of reservations with a given status.
+     *
+     * @param status (Status) gets reservations with a certain parameterized status.
+     * @return res (ArrayList<Reservation>) an ArrayList of reservations matching a certain status.
+     */
+    public ProjectLinkedList<Reservation> getReservations(Status status)
     {
-        ArrayList<Reservation> res = new ArrayList<>();
-        
+        ProjectLinkedList<Reservation> res = new ProjectLinkedList<>();
+
         for (Reservation reserve: reservations)
         {
             if (reserve.getStatus() == status)
@@ -560,7 +559,7 @@ public class Hotel
         }
         return res;
     }
-    
+
     /**
      * Returns the total of all paid reservations.
      * 
@@ -730,10 +729,19 @@ public class Hotel
     public String toString() 
     {
         return "=========================" + "\n" +
-                "Hotel: " + name + "\n" +
-                address + "\n" +
-                phoneNumber + "\n" +
-                "=========================" + "\n";
+        "Hotel: " + name + "\n" +
+        address + "\n" +
+        phoneNumber + "\n" +
+        "=========================" + "\n";
+    }
+    private class HotelBuilder {
+        
+    private Scanner input;
+    /* String selection: should be a String, if it's hardcoded as an int, 
+     * then the program will crash if in int is not entered. */
+    private String selection; 
+    private Hotel hotel;
+        
     }
 
     /**
@@ -766,17 +774,5 @@ public class Hotel
         if (Math.floor(testHotel.getTotalPaymentDue()) != Math.floor(150.00 + 195.70)) System.out.println("Hotel.getTotalPaymentDue() is supposed to be 345.70, but is " + Math.floor(testHotel.getTotalPaymentDue()));
         if (Math.floor(testHotel.getTotalSales()) != Math.floor(0.0)) System.out.println("Hotel.getTotalSales() is supposed to be 0.0, but is " + Math.floor(testHotel.getTotalSales()));
     }
-    
-        
-    
-    public Project2LinkedList buildList() {
-        ArrayList<Room> arr = this.getEmptyRooms();
-        Project2LinkedList  list = new Project2LinkedList();
-        
-        for(Room r: arr) {
-            list.add(r);
-        }
-        return list;
-            
-    }
+
 }
