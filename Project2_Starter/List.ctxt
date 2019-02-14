@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=List
+comment1.params=
+comment1.target=int\ size()
+comment10.params=
+comment10.target=void\ reset()
+comment2.params=index
+comment2.target=java.lang.Object\ get(int)
+comment3.params=value
+comment3.target=int\ indexOf(java.lang.Object)
+comment4.params=
+comment4.target=boolean\ isEmpty()
+comment5.params=value
+comment5.target=boolean\ contains(java.lang.Object)
+comment6.params=value
+comment6.target=void\ add(java.lang.Object)
+comment7.params=index\ value
+comment7.target=void\ add(int,\ java.lang.Object)
+comment8.params=index
+comment8.target=void\ remove(int)
+comment9.params=index\ value
+comment9.target=void\ set(int,\ java.lang.Object)
+numComments=11

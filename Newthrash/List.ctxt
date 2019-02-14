@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=List
+comment1.params=
+comment1.target=int\ size()
+comment2.params=value
+comment2.target=void\ add(java.lang.Object)
+comment3.params=index\ value
+comment3.target=void\ add(int,\ java.lang.Object)
+comment4.params=
+comment4.target=void\ reset()
+numComments=5

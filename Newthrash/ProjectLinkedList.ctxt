@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.target=ProjectLinkedList
+comment0.text=\n\ This\ is\ a\ doubly\ linked,\ circular\ list\ which\ can\ hold\ any\ type\ of\ element.\ My\ concept\ is\ to\ \n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=ProjectLinkedList()
+comment10.params=
+comment10.target=java.util.Iterator\ iterator()
+comment2.params=value
+comment2.target=void\ add(java.lang.Object)
+comment3.params=index\ data
+comment3.target=void\ add(int,\ java.lang.Object)
+comment4.params=idx
+comment4.target=java.lang.Object\ get(int)
+comment5.params=
+comment5.target=int\ size()
+comment6.params=
+comment6.target=void\ reset()
+comment7.params=target
+comment7.target=int\ indexOf(java.lang.Object)
+comment8.params=index
+comment8.target=ProjectLinkedList.LinkedListNode\ nodeAt(int)
+comment9.params=idx
+comment9.target=boolean\ checkIndex(int)
+numComments=11
