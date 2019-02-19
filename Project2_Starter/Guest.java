@@ -9,7 +9,7 @@ import java.lang.IllegalArgumentException;
  * @author Dale Berg, Nick Coyle, Megan Laine, Steven Liu
  * @version 1/29/2019
  */
-public class Guest
+public class Guest implements Comparable<Guest>
 {
     /* INSTANCE VARIABLES */
     private String firstName;
@@ -33,7 +33,7 @@ public class Guest
      * @param member (boolean) true if the guest qualifies for membership discount
      */
     public Guest( String first, String last, String phoneNum,                    
-                    boolean isMil, boolean isGov, boolean member )
+    boolean isMil, boolean isGov, boolean member )
     {
         setFirstName( first );
         setLastName( last );
@@ -42,9 +42,13 @@ public class Guest
         setGovt( isGov );
         setMembership( member );
     }
-    
+
+    public Guest(String first, String last) {
+        this(first,last,"2001112323",false,false,false);
+    }
+
     /* ACCESSOR METHODS */
-    
+
     /**
      * Method getFirstName returns the guest's first name
      *
@@ -54,7 +58,7 @@ public class Guest
     {
         return firstName;
     }
-    
+
     /**
      * Method getLastName returns the guest's last name
      *
@@ -84,7 +88,7 @@ public class Guest
     {
         return firstName + " " + lastName;
     }
-    
+
     /**
      * Method isMilitary returns true if the guest qualifies for military discount
      *
@@ -114,9 +118,9 @@ public class Guest
     {
         return isMember;
     }
-    
+
     /* MUTATOR METHODS */
-    
+
     /**
      * Method setFirstName sets the guest's first name. An empty string is an invalid name.
      *
@@ -129,10 +133,10 @@ public class Guest
         {
             throw new IllegalArgumentException("First Name can't be an Empty String");
         }
-        
+
         firstName = first;
     }
-    
+
     /**
      * Method setLastName sets the guest's last name. An empty string is an invalid name.
      *
@@ -145,10 +149,10 @@ public class Guest
         {
             throw new IllegalArgumentException("Last Name can't be an Empty String");
         }
-        
+
         lastName = last;
     }
-    
+
     /**
      * Method setPhoneNum sets the guest's phone number, if valid. a valid phone number is
      * 10 digits, like 2061234567.
@@ -161,8 +165,8 @@ public class Guest
             phoneNumber = phoneNum; 
         }
     }
-    
-     /**
+
+    /**
      * Method isValidPhone checks if the guest's phone number is valid. a valid phone number is
      * 10 digits, like 2061234567.
      *
@@ -174,16 +178,16 @@ public class Guest
         {
             throw new IllegalArgumentException("The phone number entered is not numeric");
         }
-               
+
         int length = phoneNum.length();
         if (length != 10)
         {
             throw new IllegalArgumentException("The phone number entered must be 10 digits. You entered " + length + " digits");
         }  
-        
+
         return true;
     }
-    
+
     /**
      * Method setMil sets the military discount status of the guest.
      *
@@ -213,9 +217,9 @@ public class Guest
     {
         isMember = m;
     }
-    
+
     /* OTHER METHODS */
-    
+
     /**
      * Method toString overrides Class Object's toString() method. it returns information 
      * about this Guest, including their name, phone number, party size, nights stayed, 
@@ -227,11 +231,11 @@ public class Guest
     public String toString() 
     {
         return this.getFullName() + " , Phone: " + phoneNumber + "\n" +            
-            "Military: " + isMilitary + ", " + 
-                "Government: " + isGovernment + ", " +
-                    "Member: " + isMember;        
+        "Military: " + isMilitary + ", " + 
+        "Government: " + isGovernment + ", " +
+        "Member: " + isMember;        
     }
-    
+
     /**
      * Returns true if this Guest has the same full name and phone number as other Guest.
      * 
@@ -241,13 +245,25 @@ public class Guest
     public boolean equals(Guest guest)
     {
         boolean equals = false;
-        
+
         if (this.getFullName().equals(guest.getFullName()) && 
-            this.getPhoneNum().equals(guest.getPhoneNum()))
+        this.getPhoneNum().equals(guest.getPhoneNum()))
         {
             equals = true;
         }
-        
+
         return equals;
+    }
+
+
+    @Override
+    public int compareTo(Guest other) {
+        if(this.lastName.compareTo(other.getPhoneNum()) == 0) {
+            return this.firstName.compareTo(other.getFirstName());
+        }
+        else {
+            return this.lastName.compareTo(other.getPhoneNum());
+
+        }
     }
 }

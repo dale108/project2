@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
  * @author Dale Berg, Nick Coyle, Megan Laine, Steven Liu
  * @version 01/19/2019
  */
-public class Reservation
+public class Reservation implements Comparable<Reservation>
 {
     /* CLASS CONSTANTS */
     // how many reservation objects have been created - to generate reservation IDs
@@ -139,7 +139,7 @@ public class Reservation
     {
         return nights;
     }
-    
+
     /**
      * Method to get invoice-like info on this reservation
      * 
@@ -162,7 +162,7 @@ public class Reservation
         "Amount paid: $ " + String.format("%.2f", getAmountPaid()) + '\n' +
         "= = = = = = = = = = = = = = = = =";
     } 
-    
+
     /**
      * This method returns the room object of this reservation.
      * 
@@ -425,4 +425,13 @@ public class Reservation
         "Amount paid: $ " + String.format("%.2f", getAmountPaid()) + '\n' +
         "= = = = = = = = = = = = = = = = = = = = = = = =";
     }
+
+    @Override
+    public int compareTo(Reservation other) {
+        if(this.reservationID < other.getReservationID()) {
+            return -1;
+        }
+        return 1;
+    }
+
 }

@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=SearchTree
+comment1.params=
+comment1.target=SearchTree()
+comment2.params=value
+comment2.target=void\ add(java.lang.Comparable)
+comment3.params=root\ value
+comment3.target=SearchTree.SearchTreeNode\ add(SearchTree.SearchTreeNode,\ java.lang.Comparable)
+comment4.params=value
+comment4.target=boolean\ contains(java.lang.Comparable)
+comment5.params=root\ value
+comment5.target=boolean\ contains(SearchTree.SearchTreeNode,\ java.lang.Comparable)
+comment6.params=
+comment6.target=void\ print()
+comment7.params=root
+comment7.target=void\ printInorder(SearchTree.SearchTreeNode)
+numComments=8

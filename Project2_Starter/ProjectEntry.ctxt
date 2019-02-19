@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.target=ProjectEntry
-comment0.text=\n\ Write\ a\ description\ of\ class\ ProjectEntry\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=key\ val
-comment1.target=ProjectEntry(java.lang.Object,\ java.lang.Object)
-comment2.params=
-comment2.target=java.lang.String\ toString()
-numComments=3

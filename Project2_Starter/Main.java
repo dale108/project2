@@ -27,18 +27,18 @@ public class Main
 
         // add all existing/saved reservations (from a text file) to the Hotel object
         hotel.fillReservationArrayList("HotelBurgerReservations.txt");
-
+        
+        // this will populate the guest tree with all current guests at start up.
+        hotel.fillGuestTree();
+        
         // print some hotel details (name, address, phone number) to the console
         System.out.println(hotel);
 
         // start keyboard input for the console app
         input = new Scanner(System.in);
 
-        //System.out.println(hotel.getReservedRoomsList());
         // show the main menu for the console app to the user
         mainMenu();      
-
-        
     }
 
     /* HELPER METHODS */
@@ -315,12 +315,12 @@ public class Main
         /* validates the roomNumber that was typed matches what is available in Hotel.
          * if this check passes, we have a valid room about to be reserved, 
          * -- just need guest info to make the reservation */
-        // while ( !availableRooms.contains(room) && !roomNumber.equals("0") ) 
-        // {
-        // System.out.println(" Input not recognized. Please try again, -or- press 0 to exit");
-        // roomNumber = input.next();
-        // room = hotel.getRoom(roomNumber);
-        // }
+        while ( !hotel.isRoomAvailable(roomNumber) && !roomNumber.equals("0") ) 
+        {
+        System.out.println(" Input not recognized. Please try again, -or- press 0 to exit");
+        roomNumber = input.next();
+        room = hotel.getRoom(roomNumber);
+        }
 
         if (roomNumber.equals("0")) 
         {
@@ -370,6 +370,9 @@ public class Main
 
             // add the reservation to the hotel
             hotel.addReservation(reservation);
+            
+            // add the guest to the hotels guest tree.
+            hotel.addGuest(guest);
         } catch(Exception e) {
             System.out.println("Error: " + e);
             System.out.println("Please try again");
@@ -540,7 +543,7 @@ public class Main
     private static void guestMenu() throws FileNotFoundException 
     { 
         System.out.println("please make a selection: ");
-        System.out.println("1. Look up a guest by name");
+        System.out.println("1. Look up a guest by phone number");
         System.out.println("2. See all guest information in our system");
         int selection = getUserInputInt(1,2);
 
@@ -549,9 +552,10 @@ public class Main
 
         if (selection == 1)
         {
-            System.out.println("Please enter the last name of the guest");
-            String name = input.next();
-            guestReservations = hotel.getReservationsByLastName(name); // fill the array
+            System.out.println("Please enter the phone number of the guest");
+            System.out.println("Hint: try 1234567891");
+            String num = input.next();
+            guestReservations = hotel.getReservationsByPhoneNumber(num); // fill the array
 
             if (guestReservations.isEmpty())
             {

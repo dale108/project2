@@ -76,11 +76,16 @@ public class ProjectLinkedList<E> implements List<E>
         size--;
     }
 
+    // List is circular, so this is necessary
     public void reset() {
         head.next = end;
         end.next = head;
     }
 
+    /**
+     * Simple iteration through the list to find the index of a given element.
+     * if the target is not found in the list, returns -1.
+     */
     public int indexOf(E target) {
         int idx = 0;
         LinkedListNode current = head;
@@ -96,19 +101,25 @@ public class ProjectLinkedList<E> implements List<E>
         return -1; // if not found, returns negative number
     }
 
+    /**
+     * This is a helper method for us to find the node at a certain index - I've made
+     * some changes to the algorithm in the textbook for differentiation. This method is dynamic
+     * in that it it searches from wither the beginning or end of the list depending on if
+     * the index value is greater or lesser than size/2.
+     */
     private LinkedListNode<E> nodeAt(int index) {
         LinkedListNode<E> curr;
-        if(index < size/2) {
+        if(index < size/2) { // If the element is nearer to the beginning than the end
             curr = head;
             int count = 0;
             // I'm using a while loop here just so the  program is different from source material
-            while(count < index + 1) {
+            while(count < index + 1) { 
                 curr = curr.next;
                 count++;
             }
             return curr;
         }
-        else {
+        else { // identical structture but starting from the end.
             curr = end;
             int count = size;
             while(count > index) {
@@ -119,6 +130,9 @@ public class ProjectLinkedList<E> implements List<E>
         return curr;
     }
 
+    /**
+     * Helper method to assure index won't cause any problems.
+     */
     private boolean checkIndex(int idx) {
         if(idx > size || idx < 0) {
             throw new IndexOutOfBoundsException();
@@ -126,12 +140,14 @@ public class ProjectLinkedList<E> implements List<E>
         return true;
     }
 
-    // post: returns an iterator for this list
+    /**
+     * This is straight form the textbook - returns an iterator for the Linked list;
+     */
     public Iterator<E> iterator() {
         return new LinkedIterator();
     }
     
-        // post: creates a comma-separated, bracketed version of the list
+    @Override
     public String toString() {
         if (size == 0) {
             return "[]";
@@ -148,6 +164,10 @@ public class ProjectLinkedList<E> implements List<E>
     }
 
 
+    /**
+     * Nested classes make this implementation easier - this way we don't need getters and
+     * setters for next, previous and data fields.
+     */
     private static class LinkedListNode<E> {
         public E data;
         public LinkedListNode next;
@@ -180,7 +200,7 @@ public class ProjectLinkedList<E> implements List<E>
         }
     }
     
-    // this is straight from the textbook - the order of ethods will be the same as the
+    // this is straight from the textbook - the order of methods will be the same as the
     // textbook implementation. 
     private class LinkedIterator implements Iterator<E> {
         private LinkedListNode<E> curr; 

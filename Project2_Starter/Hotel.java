@@ -18,7 +18,8 @@ public class Hotel
     private String phoneNumber;
     private ProjectLinkedList<Reservation> reservations;
     private ProjectHashMap rooms;
-
+    private ProjectBST guestTree; // orddered by phone number (names could be duplicate)
+    
     /**
      * Hotel Constructor 1/1 (Constructor used from Main client code.)
      * Reads data from the hotel text file, and populates the ArrayList<Room>
@@ -52,6 +53,7 @@ public class Hotel
 
         // 'fill' the room arraylist with different rooms available in the hotel
         fillRoomMap();
+
     }
 
     /* METHODS UTILIZED BY THE CONSTRUCTORS */
@@ -112,6 +114,22 @@ public class Hotel
 
             this.addRoom(room);
         }
+    }
+
+    /**
+     * This method is specific to project two. For the program to run optimally we need the
+     * a binary search tree of Guests 
+     */
+    public void fillGuestTree() {
+        guestTree = new ProjectBST();
+        for(Reservation res: reservations) {
+            Guest g = res.getGuest();
+            guestTree.add(g);
+        }
+    }
+
+    public void addGuest(Guest g) {
+        guestTree.add(g);
     }
 
     /**
@@ -257,6 +275,21 @@ public class Hotel
         return phoneNumber;
     }  
 
+    /**********************
+     * ROOM METHODS
+     * *****************
+     */
+
+    /**
+     * Returns whether or not a room is available.
+     * @param String rooms number to be checked
+     * @returns boolean representing whether the rookm is available
+     */
+    public boolean isRoomAvailable(String roomNum) {
+        Room room = (Room) rooms.get(roomNum);
+        return room.isAvailable();
+    }
+
     /**
      * Returns an arraylist of Room objects that are available.
      * A room is considered available IF there is no reservation on it, and IF there are no
@@ -340,7 +373,7 @@ public class Hotel
     {
         return rooms;
     }
-    
+
     public ProjectLinkedList getAllRoomsList() {
         return rooms.getValuesList();
     }
@@ -386,7 +419,28 @@ public class Hotel
             }
         }
         return reservationsByName;
-    }    
+    }
+
+    /**
+     * Returns a ProjectLinkedList of all reservations matching a guest's phone number from 
+     * hotel's list of reservations.
+     * 
+     * @param guestPhoneNumber (String) the phone number to search by
+     * @return reservationsByName (ArrayList<Reservation>) list of reservations whose last name matches the search criteria.
+     */
+    public ProjectLinkedList<Reservation> getReservationsByPhoneNumber(String phoneNumber)
+    {
+        ProjectLinkedList<Reservation> reservationsByPhoneNumber = new ProjectLinkedList<Reservation>();
+
+        for (Reservation res: reservations) 
+        {
+            if (res.getGuest().getPhoneNum().equals(phoneNumber)) 
+            {
+                reservationsByPhoneNumber.add(res);
+            }
+        }
+        return reservationsByPhoneNumber;
+    }
 
     /**
      * Returns a Reservation object when the reservationIDs match. Returns null if no match.
@@ -456,6 +510,16 @@ public class Hotel
         return arr;
     }  
 
+    public ProjectBST getGuestTree() {
+        return guestTree;
+    }
+
+    /**
+     * ************************************************************
+     * INVOICE METHODS
+     * ************************************************************
+     */
+
     /**
      * Returns an ArrayList of strings representing 'invoices' in the hotel 
      * where there is NO balance due.
@@ -495,6 +559,14 @@ public class Hotel
         }
         return invoices;
     }
+    /**
+     * *****************
+     */
+
+    /**********************
+     * RESERVATION METHODS
+     * ********************
+     */
 
     /**
      * (overloaded method) Returns a reservation object if the Guest object passed in 
@@ -560,6 +632,11 @@ public class Hotel
         return res;
     }
 
+    /**
+     * ********************
+     * MISC PUBLIC METHODS
+     * ********************
+     */
     /**
      * Returns the total of all paid reservations.
      * 
@@ -654,7 +731,9 @@ public class Hotel
         return totalCancellations;
     }
 
-    /* MUTATOR METHODS */
+    /**
+     * MUTATOR METHODS 
+     */
 
     /**
      * Method setName sets this hotel's name field.
@@ -735,13 +814,13 @@ public class Hotel
         "=========================" + "\n";
     }
     private class HotelBuilder {
-        
-    private Scanner input;
-    /* String selection: should be a String, if it's hardcoded as an int, 
-     * then the program will crash if in int is not entered. */
-    private String selection; 
-    private Hotel hotel;
-        
+
+        private Scanner input;
+        /* String selection: should be a String, if it's hardcoded as an int, 
+         * then the program will crash if in int is not entered. */
+        private String selection; 
+        private Hotel hotel;
+
     }
 
     /**
