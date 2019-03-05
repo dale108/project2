@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.HashSet;
 /**
- * Class Hotel represents a hotel. It has (ArrayLists) for Rooms and Reservations.
+ * Class Hotel represents a hotel. This is the terminal of the program.
  * 
  * @author Dale Berg, Nick Coyle, Megan Laine, Steven Liu
  * @version 1/29/2019
@@ -118,18 +118,39 @@ public class Hotel
 
     /**
      * This method is specific to project two. For the program to run optimally we need the
-     * a binary search tree of Guests 
+     * a binary search tree of Guests. The guests are being pulled form the keyset of hashmap, so there
+     * is no danger of duplicates.
      */
     public void fillGuestTree() {
         guestTree = new ProjectBST();
         for(Reservation res: reservations) {
             Guest g = res.getGuest();
+            
             guestTree.add(g);
         }
     }
 
     public void addGuest(Guest g) {
         guestTree.add(g);
+    }
+    
+    /** this leverages the new binary search tree hollding guest objects. IF the guest is not
+     * found in the tree, the method will return null.
+     */
+    public Guest getGuestByPhoneNum(String phoneNum) {
+        return guestTree.findGuest(phoneNum); 
+    }
+    
+    /**
+     * This is the most expensive method in the whole program. Luckily, it only executes at 
+     * startup.
+     */
+    public void buildGuestHistories() {
+     for(Reservation res : reservations) {
+         Guest g = res.getGuest();
+         g.addRoomToHistory(res.getRoom());
+         
+        }
     }
 
     /**

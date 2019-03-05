@@ -195,6 +195,16 @@ public class IntTree {
         inOrderList(n.right, list);
         return list;
     }
+    
+    public void invert() {
+        invert(overallRoot);
+    }
+    
+    private void invert(IntTreeNode root) {
+        IntTreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+    }
 
     // Class for storing a single node of a binary tree of ints
     private class IntTreeNode {

@@ -1,12 +1,12 @@
 import java.util.*;
 /**
- * I needed to make a map which would make sense for either rooms or Guests. This map would
+ * I needed to make a map which would make sense for either Rooms or Guests. This map would
  * work with generic data types. I opted to make it as specialized as possible, so
  * that I can leverage the fact that it is custom in implementation 
  */
 public class ProjectHashMap
 {
-    ProjectEntry[] buckets;
+    ProjectEntry[] buckets; // This is the foundation of the hash table.
 
     public ProjectHashMap() {
         buckets = new ProjectEntry[100];
@@ -18,6 +18,7 @@ public class ProjectHashMap
         int placementBucket = determineBucket(key); // this is how we find our bucket for the new entry
 
         ProjectEntry<String, Object> curr = buckets[placementBucket];
+        
         if(curr == null) {
             buckets[placementBucket] = addEntry; // if bucket empty, we can add now
         }
@@ -94,6 +95,7 @@ public class ProjectHashMap
         return set;
     }
     
+    
     public ProjectLinkedList getValuesList() {
         ProjectLinkedList<Object> returnList = new ProjectLinkedList();
         for(int i = 0; i < buckets.length; i++) {
@@ -107,7 +109,9 @@ public class ProjectHashMap
     }
     
     private int determineBucket(String key) {
-        // we don't want a huge array because our roomlist probaly won't be a huge number.
+        // we don't want a huge array because our lists probably won't be very big - if we need
+        // to scale this for any reason, we could increase the size of the array and take the 
+        // mod of ten 2 times.
         int returnValue = key.hashCode() % 10;
         return Math.abs(returnValue);
     }

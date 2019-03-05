@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=ProjectHashMap
-comment0.text=\n\ I\ needed\ to\ make\ a\ map\ which\ would\ make\ sense\ for\ either\ rooms\ or\ Guests.\ This\ map\ would\n\ work\ with\ generic\ data\ types.\ I\ opted\ to\ make\ it\ as\ specialized\ as\ possible,\ so\n\ that\ I\ can\ leverage\ the\ fact\ that\ it\ is\ custom\ in\ implementation\ \n
+comment0.text=\n\ I\ needed\ to\ make\ a\ map\ which\ would\ make\ sense\ for\ either\ Rooms\ or\ Guests.\ This\ map\ would\n\ work\ with\ generic\ data\ types.\ I\ opted\ to\ make\ it\ as\ specialized\ as\ possible,\ so\n\ that\ I\ can\ leverage\ the\ fact\ that\ it\ is\ custom\ in\ implementation\ \n
 comment1.params=
 comment1.target=ProjectHashMap()
 comment2.params=key\ val

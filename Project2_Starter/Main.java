@@ -23,14 +23,16 @@ public class Main
 
         // instantiate a Hotel object using the constructor that takes a text file of Room info
         hotel = new Hotel("HotelBurgerRooms.txt");
-        System.out.print(hotel.getEmptyRooms());
 
         // add all existing/saved reservations (from a text file) to the Hotel object
         hotel.fillReservationArrayList("HotelBurgerReservations.txt");
-        
+
         // this will populate the guest tree with all current guests at start up.
         hotel.fillGuestTree();
         
+        // This populates the rental history for guests in our tree
+        hotel.buildGuestHistories();
+ 
         // print some hotel details (name, address, phone number) to the console
         System.out.println(hotel);
 
@@ -38,7 +40,8 @@ public class Main
         input = new Scanner(System.in);
 
         // show the main menu for the console app to the user
-        mainMenu();      
+       mainMenu();      
+       //hotel.testTry();
     }
 
     /* HELPER METHODS */
@@ -260,7 +263,7 @@ public class Main
         System.out.println("= = = = = = = = = = = = = = = = = = = = = = = =");
         System.out.println(" MAKE A RESERVATION MENU");
 
-        System.out.println(" How many adults?");
+        System.out.println("How many adults?");
 
         // get the number of adults, must be at least 1
         partySize = getUserInputInt(1);
@@ -270,120 +273,176 @@ public class Main
         // get the number of nights, must be at least 1
         nights = getUserInputInt(1);
 
-        // get price range of user
-        System.out.println("What is you price range?");
-        System.out.println("Enter your selection:" + '\n' +
-            '\t' + "1. within $150-175/night" + '\n' +
-            '\t' + "2. more than $175/night");
-        priceRange = getUserInputInt(1,2);
-
-        availableRooms = roomOptionsTrimmer(partySize, priceRange);
-
-        System.out.println("These rooms match: (RoomNumber | RoomType | BedType | PricePerNight)");
-
-        // We want to a new line after printing 4 rooms, so we need a counter to keep track
-        int newLineCounter = 0;
-        if (availableRooms.isEmpty()) 
-        {
-            System.out.println("Couldn't find any rooms matching this criteria, try again");
-
-            // if we can't find any room, the user may return to main menu
-            makeReservationMenu();
-        }
-        else
-        {
-            for (Room r : availableRooms)
-            {
-                System.out.print("[ " + r.getRoomNumber() + " | " + r.getRoomType() + " | " + 
-                    r.getBedType() + " | " + String.format("$%.2f", r.getRate()) + " ]    ");
-
-                newLineCounter++;
-
-                // we want to print a new line after 2 rooms for readability
-                if (newLineCounter == 2) 
-                {
-                    System.out.println();
-                    newLineCounter = 0;
+        // check to see if guest is already in the database
+        
+        if(checkHistoryStatus()) {
+            boolean isValidPhone = false;
+            while(!isValidPhone) {
+                try {
+                    System.out.println(" What is your cellphone number? (please enter 10 digits, e.g. 1234567890)");
+                    phoneNumber = input.next();                
+                    isValidPhone = Guest.isValidPhone(phoneNumber);                
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
+                    System.out.println("Please try again");      
                 }
             }
-        }
+            Guest g = hotel.getGuestByPhoneNum(phoneNumber);
+            Room r = g.getLastRoom();
+            
+            if(r == null) {
+                System.out.println("No room history for this guest");
+                System.out.println("Please try again");
+                makeReservationMenu();
+            }
+            
+            try
+            {
 
-        System.out.println( " Enter the roomNumber you want to reserve -or- 0 to cancel:");
-        roomNumber = input.next();   
-        room = hotel.getRoom(roomNumber);
+                // construct the Reservation object 
+                // (note: it's also possible to set status to waiting)
+                reservation = new Reservation(r, g, Status.IN, partySize, nights);
 
-        /* validates the roomNumber that was typed matches what is available in Hotel.
-         * if this check passes, we have a valid room about to be reserved, 
-         * -- just need guest info to make the reservation */
-        while ( !hotel.isRoomAvailable(roomNumber) && !roomNumber.equals("0") ) 
-        {
-        System.out.println(" Input not recognized. Please try again, -or- press 0 to exit");
-        roomNumber = input.next();
-        room = hotel.getRoom(roomNumber);
-        }
+                // add the reservation to the hotel
+                hotel.addReservation(reservation);
 
-        if (roomNumber.equals("0")) 
-        {
-            mainMenu();
-        }          
-
-        /* get the guest's personal info. 
-         * we are making an assumption that the user only enters valid names at this time. */
-        System.out.println(" What is your first name?");
-        firstName = input.next();
-        System.out.println(" What is your last name?");  
-        lastName = input.next();
-
-        boolean isValidPhone = false;
-        while(!isValidPhone) {
-            try {
-                System.out.println(" What is your cellphone number? (please enter 10 digits, ie 1234567890)");
-                phoneNumber = input.next();                
-                isValidPhone = Guest.isValidPhone(phoneNumber);                
-            } catch (Exception e) {
+                // add the guest to the hotels guest tree.
+                hotel.addGuest(guest);
+            } catch(Exception e) {
                 System.out.println("Error: " + e);
-                System.out.println("Please try again");      
+                System.out.println("Please try again");
+                makeReservationMenu();
             }
         }
-
-        // next get discount statuses
-        System.out.println(" Are you active military? Enter 1 for yes, -or- 0 for no");        
-        int in = getUserInputInt(0,1);
-        isMilitary = (in == 1);
-
-        System.out.println(" Are you an active government employee? Enter 1 for yes, -or- 0 for no");
-        in = getUserInputInt(0,1);
-        isGov = (in == 1); 
-
-        System.out.println(" Are you a rewards member? Enter 1 for yes, -or- 0 for no"); 
-        in = getUserInputInt(0,1);
-        isMember = (in == 1); 
-
-        // try to construct the objects and catch exceptions gracefully
-        try
-        {
-            guest = new Guest(firstName, lastName, phoneNumber, isMilitary, isGov, isMember);
-
-            // construct the Reservation object 
-            // (note: it's also possible to set status to waiting)
-            reservation = new Reservation(room, guest, Status.IN, partySize, nights);
-
-            // add the reservation to the hotel
-            hotel.addReservation(reservation);
+        else {
             
-            // add the guest to the hotels guest tree.
-            hotel.addGuest(guest);
-        } catch(Exception e) {
-            System.out.println("Error: " + e);
-            System.out.println("Please try again");
-            makeReservationMenu();
+            // get price range of user
+            System.out.println("What is you price range?");
+            System.out.println("Enter your selection:" + '\n' +
+                '\t' + "1. within $150-175/night" + '\n' +
+                '\t' + "2. more than $175/night");
+            priceRange = getUserInputInt(1,2);
+
+            availableRooms = roomOptionsTrimmer(partySize, priceRange);
+
+            System.out.println("These rooms match: (RoomNumber | RoomType | BedType | PricePerNight)");
+
+            // We want to a new line after printing 4 rooms, so we need a counter to keep track
+            int newLineCounter = 0;
+            if (availableRooms.isEmpty()) 
+            {
+                System.out.println("Couldn't find any rooms matching this criteria, try again");
+
+                // if we can't find any room, the user may return to main menu
+                makeReservationMenu();
+            }
+            else
+            {
+                for (Room r : availableRooms)
+                {
+                    System.out.print("[ " + r.getRoomNumber() + " | " + r.getRoomType() + " | " + 
+                        r.getBedType() + " | " + String.format("$%.2f", r.getRate()) + " ]    ");
+
+                    newLineCounter++;
+
+                    // we want to print a new line after 2 rooms for readability
+                    if (newLineCounter == 2) 
+                    {
+                        System.out.println();
+                        newLineCounter = 0;
+                    }
+                }
+            }
+
+            System.out.println( " Enter the roomNumber you want to reserve -or- 0 to cancel:");
+            roomNumber = input.next();   
+            room = hotel.getRoom(roomNumber);
+
+            /* validates the roomNumber that was typed matches what is available in Hotel.
+             * if this check passes, we have a valid room about to be reserved, 
+             * -- just need guest info to make the reservation */
+            while ( !hotel.isRoomAvailable(roomNumber) && !roomNumber.equals("0") ) 
+            {
+                System.out.println(" Input not recognized. Please try again, -or- press 0 to exit");
+                roomNumber = input.next();
+                room = hotel.getRoom(roomNumber);
+            }
+
+            if (roomNumber.equals("0")) 
+            {
+                mainMenu();
+            }          
+
+            /* get the guest's personal info. 
+             * we are making an assumption that the user only enters valid names at this time. */
+            System.out.println(" What is your first name?");
+            firstName = input.next();
+            System.out.println(" What is your last name?");  
+            lastName = input.next();
+
+            boolean isValidPhone = false;
+            while(!isValidPhone) {
+                try {
+                    System.out.println(" What is your cellphone number? (please enter 10 digits, ie 1234567890)");
+                    phoneNumber = input.next();                
+                    isValidPhone = Guest.isValidPhone(phoneNumber);                
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
+                    System.out.println("Please try again");      
+                }
+            }
+
+            // next get discount statuses
+            System.out.println(" Are you active military? Enter 1 for yes, -or- 0 for no");        
+            int in = getUserInputInt(0,1);
+            isMilitary = (in == 1);
+
+            System.out.println(" Are you an active government employee? Enter 1 for yes, -or- 0 for no");
+            in = getUserInputInt(0,1);
+            isGov = (in == 1); 
+
+            System.out.println(" Are you a rewards member? Enter 1 for yes, -or- 0 for no"); 
+            in = getUserInputInt(0,1);
+            isMember = (in == 1); 
+
+            // try to construct the objects and catch exceptions gracefully
+            try
+            {
+                guest = new Guest(firstName, lastName, phoneNumber, isMilitary, isGov, isMember);
+
+                // construct the Reservation object 
+                // (note: it's also possible to set status to waiting)
+                reservation = new Reservation(room, guest, Status.IN, partySize, nights);
+
+                // add the reservation to the hotel
+                hotel.addReservation(reservation);
+
+                // add the guest to the hotels guest tree.
+                hotel.addGuest(guest);
+                
+                guest.addRoomToHistory(room);
+            } catch(Exception e) {
+                System.out.println("Error: " + e);
+                System.out.println("Please try again");
+                makeReservationMenu();
+            }
         }
 
         System.out.println( "Your reservation was successfully created:");         
         System.out.println(reservation);
         System.out.println("= = = = = = = = = = = = = = = = = = = = = = = =");
-
         returnToMainMenuPrompt();
+    }
+    
+    private static boolean checkHistoryStatus() {
+        System.out.println("Have you stayed with us before? Enter 1 for yes or 2 for no: ");
+        int select = getUserInputInt(1,2);
+        if(select == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**

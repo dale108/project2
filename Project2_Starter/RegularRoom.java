@@ -11,6 +11,11 @@ public class RegularRoom extends Room
     /* CLASS CONSTANTS */
     private static final String ROOM_TYPE = "Regular";
     
+    public RegularRoom(String ro) 
+    {
+        super(ro);
+    }
+    
     /**
      * Constructor for RegularRoom object
      * Calls super method to construct Room object

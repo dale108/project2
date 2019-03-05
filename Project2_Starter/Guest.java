@@ -18,6 +18,7 @@ public class Guest implements Comparable<Guest>
     private boolean isMilitary;
     private boolean isGovernment;
     private boolean isMember;
+    ProjectLinkedList<Room> roomHistory;
 
     /**
      * Guest Constructor 1/1: The full Guest constructor that takes into account all 
@@ -41,10 +42,11 @@ public class Guest implements Comparable<Guest>
         setMil( isMil );
         setGovt( isGov );
         setMembership( member );
+        roomHistory = new ProjectLinkedList<>();
     }
 
-    public Guest(String first, String last) {
-        this(first,last,"2001112323",false,false,false);
+    public Guest(String first, String last, String phone) {
+        this(first,last,phone,false,false,false);
     }
 
     /* ACCESSOR METHODS */
@@ -220,6 +222,10 @@ public class Guest implements Comparable<Guest>
 
     /* OTHER METHODS */
 
+    public void addRoomToHistory(Room room) {
+        roomHistory.add(room);
+    }
+    
     /**
      * Method toString overrides Class Object's toString() method. it returns information 
      * about this Guest, including their name, phone number, party size, nights stayed, 
@@ -235,6 +241,7 @@ public class Guest implements Comparable<Guest>
         "Government: " + isGovernment + ", " +
         "Member: " + isMember;        
     }
+    
 
     /**
      * Returns true if this Guest has the same full name and phone number as other Guest.
@@ -255,15 +262,37 @@ public class Guest implements Comparable<Guest>
         return equals;
     }
 
-
+    /**
+     * We need to oraganize Guests so that there is no possibility of duplicates, and the
+     * most logical way to accomplish this is by comparing based on phone number.
+     */
     @Override
     public int compareTo(Guest other) {
-        if(this.lastName.compareTo(other.getPhoneNum()) == 0) {
-            return this.firstName.compareTo(other.getFirstName());
+            return this.phoneNumber.compareTo(other.getPhoneNum());
+    }
+        
+    public Room getLastRoom() {
+        ProjectStack stack = new ProjectStack(roomHistory.size());
+        for(Room room: roomHistory) {
+            stack.push(room);
         }
-        else {
-            return this.lastName.compareTo(other.getPhoneNum());
-
+        while(!stack.isEmpty()) {
+            Room room = stack.pop();
+            if(room.isAvailable()){
+                return room;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * This is a test method I've chosen to leave in for convinience. It's plausibe that a
+     * client might want to see the room history of a certain guest.
+     */
+    public void printRoomHistory() {
+        System.out.println(roomHistory.size());
+        for( Room room : roomHistory) {
+            System.out.println(room);
         }
     }
 }

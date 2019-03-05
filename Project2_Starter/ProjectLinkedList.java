@@ -1,6 +1,6 @@
 import java.util.*;
 /**
- * This is a doubly linked, circular list which can hold any type of element. My concept is to 
+ * This is a doubly linked, circular list which can hold any type of element.  
  *
  * @author (your name)
  * @version (a version number or a date)
@@ -15,15 +15,21 @@ public class ProjectLinkedList<E> implements List<E>
     public ProjectLinkedList() {
         head = new LinkedListNode(null);
         end = new LinkedListNode(null);
-        reset();
+        reset(); // call reset here to set the links to circular
     }
 
+    /**
+     *  Adds value to the end of the list.
+     */
     public void add(E value) {
-        add(size,value);
+        add(size,value); // adds to the end of the list.
     }
 
-    public void add(int index, E data) {
-        checkIndex(index);
+    /**
+     * Adds value at specific index
+     */
+    public void add(int index, E data)  throws IndexOutOfBoundsException {
+        checkIndex(index); // ensure that index is valid, otherwise crashes program
         LinkedListNode<E> curr = nodeAt(index-1);
         LinkedListNode<E> addNode = new LinkedListNode(data, curr.next, curr);
         curr.next = addNode;
@@ -31,19 +37,6 @@ public class ProjectLinkedList<E> implements List<E>
         size++;
     }
 
-    // public boolean contains(E val) {
-        // LinkedListNode curr = head;
-        // while(curr != end) {
-            // if(curr.data.equals(val)){
-                // return true;
-            // }
-            // curr = curr.next;
-        // }
-        // return false;
-    // }
-    
-        // post: returns true if the given value is contained in the list,
-    //       false otherwise
     public boolean contains(E value) {
         return indexOf(value) >= 0;
     }
@@ -53,17 +46,26 @@ public class ProjectLinkedList<E> implements List<E>
         LinkedListNode<E> curr = nodeAt(idx);
         return curr.data;
     }
-    
+
+    /** 
+     * Returns whether or not the list is empty
+     */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /**
+     * Sets a value at a given index
+     */
     public void set(int idx, E newVal) {
         checkIndex(idx);
         LinkedListNode curr = nodeAt(idx);
         curr.data = newVal;
     }
 
+    /** 
+     * returns the size of the list
+     */
     public int size(){
         return size;
     }
@@ -103,7 +105,7 @@ public class ProjectLinkedList<E> implements List<E>
 
     /**
      * This is a helper method for us to find the node at a certain index - I've made
-     * some changes to the algorithm in the textbook for differentiation. This method is dynamic
+     * some changes to the algorithm in the textbook to demonstrate a different approach. This method is dynamic
      * in that it it searches from wither the beginning or end of the list depending on if
      * the index value is greater or lesser than size/2.
      */
@@ -140,13 +142,18 @@ public class ProjectLinkedList<E> implements List<E>
         return true;
     }
 
+    // This is another custom implementation which is integral to the functioning of the program
+    public Object getLastElement() { 
+        return (Object) end.previous.data;
+    }
+
     /**
      * This is straight form the textbook - returns an iterator for the Linked list;
      */
     public Iterator<E> iterator() {
         return new LinkedIterator();
     }
-    
+
     @Override
     public String toString() {
         if (size == 0) {
@@ -163,6 +170,27 @@ public class ProjectLinkedList<E> implements List<E>
         }
     }
 
+    /** 
+     * ensures that there are no duplicate objects in the list. This is useful for making a 
+     * linked set, without having to change data types.
+     */
+    public void removeDuplicates() {
+        if(head != null) {
+            LinkedListNode curr = head;
+            while(curr.next != head && curr.next.next != head) {
+                if(curr.data.equals(curr.next.data)) {
+                    curr.next = curr.next.next;
+                }
+                else {
+                    curr = curr.next;
+                }
+            }
+            if(curr.next.data == curr.data) {
+                curr.next = null;
+            }
+        }
+    }
+    
 
     /**
      * Nested classes make this implementation easier - this way we don't need getters and
@@ -199,8 +227,8 @@ public class ProjectLinkedList<E> implements List<E>
             this.data = data;
         }
     }
-    
-    // this is straight from the textbook - the order of methods will be the same as the
+
+    // this is adapted from the textbook - the order of methods will be the same as the
     // textbook implementation. 
     private class LinkedIterator implements Iterator<E> {
         private LinkedListNode<E> curr; 

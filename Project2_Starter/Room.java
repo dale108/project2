@@ -18,6 +18,15 @@ public abstract class Room
     private String bedType;
     private boolean isAvailable;
     
+    public Room(String ro) 
+    {
+        roomNum = ro;
+        floor = 1;
+        capacity = 2;
+        bedType = null;
+        isAvailable = false;
+    }
+
     /**
      * Constructor for Room object
      * 
