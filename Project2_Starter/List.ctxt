@@ -1,5 +1,6 @@
 #BlueJ class context
 comment0.target=List
+comment0.text=\n\ This\ is\ a\ list\ interface\ implementation.\ Really,\ this\ only\ exists\ because\ we\ want\n\ ProjectLinkedList\ to\ both\ implement\ list\ and\ extend\ iterable\ -\ this\ requires\ a\ second\ class.\ \n\ \n
 comment1.params=
 comment1.target=int\ size()
 comment10.params=

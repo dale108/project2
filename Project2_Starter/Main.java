@@ -809,6 +809,8 @@ public class Main
                 }
             }
         }
+        
+        
 
         // String.format("$ %.2f", String)
         return returnList;

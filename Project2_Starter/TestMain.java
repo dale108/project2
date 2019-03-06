@@ -1,7 +1,9 @@
 import java.util.*;
 import junit.framework.*;
 /**
- * Write a description of class TestMain here.
+ * This is where I tested some of the new data structures. The Hotel program is pretty complex
+ * at this point, so it's helpful to see simpler representations of the new processes.
+ * 
  *
  * @author (your name)
  * @version (a version number or a date)
@@ -73,21 +75,93 @@ public class TestMain
         // System.out.println(tree2.contains("A"));
 
         // Stack tests
-        ProjectStack stack = new ProjectStack(10);
-        Room r1 = new RegularRoom("1");
-        Room r2 = new RegularRoom("2");
-        Room r3 = new RegularRoom("3");
-        Room r4 = new RegularRoom("4");
-        Room room = new RegularRoom("5");
-        stack.push(r1);
-        stack.push(r2);
-        stack.push(r3);
-        stack.push(r4);
-        while(room != null) {
-            room = stack.pop();
-            System.out.println(room);
-            System.out.println();
+        // ProjectStack stack = new ProjectStack(10);
+        // Room r1 = new RegularRoom("1");
+        // Room r2 = new RegularRoom("2");
+        // Room r3 = new RegularRoom("3");
+        // Room r4 = new RegularRoom("4");
+        // Room room = new RegularRoom("5");
+        // stack.push(r1);
+        // stack.push(r2);
+        // stack.push(r3);
+        // stack.push(r4);
+        // while(room != null) {
+        // room = stack.pop();
+        // System.out.println(room);
+        // System.out.println();
+        // }
+
+        // int[] arr = {90, 1, 53, 25, 45, 45, 226};
+        // mergeR(arr);
+
+        ProjectLinkedList test = new ProjectLinkedList();
+        Room r1 = new RegularRoom("102C");
+        Room r2 = new RegularRoom("102A");
+        Room r3 = new RegularRoom("452P");
+        Room r4 = new RegularRoom("412Z");
+        Room r5 = new RegularRoom("53B");
+
+        test.add(r1);
+        test.add(r2);
+        test.add(r3);
+        test.add(r4);
+        test.add(r5);
+
+        Room[] arr = test.toArray();
+
+        for(int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i].getRoomNumber() + " ");
         }
+        
+        // int[] arr = {9, 112, 4, 5, 7};
+
+        // bubbleSort(arr);
+
+        // for(int i = 0; i <  arr.length; i++) {
+            // System.out.print(arr[i] + " ");    
+        // }
 
     }
+    public static void mergeR(int[] a) {
+        System.out.println("sorting: " + Arrays.toString(a));
+        if(a.length > 1) {
+            int[] left = Arrays.copyOfRange(a, 0, a.length/2);
+            int[] right = Arrays.copyOfRange(a, a.length/2, a.length);
+
+            mergeR(left);
+            mergeR(right);
+
+            merge(a, left, right);
+        }
+    }
+
+    private static void merge(int[] result, int[] left, int[] right) {
+        System.out.println("Merging: " + Arrays.toString(left) + Arrays.toString(right));
+        int i1 = 0;
+        int i2 = 0;
+
+        for(int i = 0; i < result.length; i++) {
+            if( i2 >= right.length || (i1 < left.length && left[i1] <= right[i2])) {
+                result[i] = left[i1];
+                i1++;
+            }
+            else {
+                result[i] = right[i2];
+                i2++;
+            }
+        }
+    }     
+
+    public static void bubbleSort(int[] arr) {
+        for(int i = 0; i < arr.length; i++) {
+            for(int j = i; j < arr.length - i-1; j++) {
+                if(arr[j] > arr[j+1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+            }
+        }
+    }
+
 }

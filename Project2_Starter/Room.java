@@ -18,14 +18,6 @@ public abstract class Room
     private String bedType;
     private boolean isAvailable;
     
-    public Room(String ro) 
-    {
-        roomNum = ro;
-        floor = 1;
-        capacity = 2;
-        bedType = null;
-        isAvailable = false;
-    }
 
     /**
      * Constructor for Room object
@@ -47,6 +39,18 @@ public abstract class Room
         this.isAvailable = true;
     }
     
+    /**
+     * This is a constructor for test methods. I am choosing to leave it in the program because
+     * it is ustilized in testMain to demonstrate the custom stack implementation.
+     */
+    public Room(String num) 
+    {
+        roomNum = num;
+        floor = 1;
+        capacity = 2;
+        bedType = null;
+        isAvailable = false;
+    }
     /* ACCESSOR METHODS */
     
     /**
@@ -163,6 +167,11 @@ public abstract class Room
         }
 
         return equals;
+    }
+    
+
+    public int compareTo(Room other) { 
+       return roomNum.compareTo(other.getRoomNumber());
     }
     
     /**

@@ -1,16 +1,20 @@
 #BlueJ class context
 comment0.target=ProjectStack
-comment0.text=\n\ Write\ a\ description\ of\ class\ ProjectStack\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ Custom\ stack\ implementation\ for\ Project\ 2.\ This\ is\ utilized\ in\ implementing\ the\ guest\n\ history\ functionality.\ Specifically\ I\ needed\ a\ way\ to\ search\ through\ the\ guests.\ Specialized\ \n\ data\ structure\ only\ compatible\ with\ objects\ of\ type\ Room.\n\ \n\ @author\ Dale\ Berg\n
 comment1.params=
 comment1.target=ProjectStack()
+comment1.text=\ \n\ 2\ constructors\ -\ one\ for\ default\ size.\ The\ second\ constructor\ is\ prefereable,\ as\ it\n\ only\ utilizes\ memory\ which\ we\ actually\ need.\n
 comment2.params=size
 comment2.target=ProjectStack(int)
 comment3.params=
 comment3.target=Room\ pop()
+comment3.text=\n\ Standard\ pop\ method\ -\ works\ exactly\ as\ pop\ works\ in\ the\ java\ library\ stack.\n
 comment4.params=room
 comment4.target=void\ push(Room)
+comment4.text=\n\ Standard\ push\ method\ -\ works\ exactly\ as\ pop\ works\ in\ the\ java\ library\ stack.\n
 comment5.params=
 comment5.target=Room\ peek()
+comment5.text=\n\ Standard\ peek\ method\ -\ works\ exactly\ as\ peek\ works\ in\ the\ java\ library\ stack.\n
 comment6.params=
 comment6.target=boolean\ isEmpty()
 numComments=7

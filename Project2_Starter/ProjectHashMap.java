@@ -1,16 +1,22 @@
 import java.util.*;
 /**
- * I needed to make a map which would make sense for either Rooms or Guests. This map would
+ * This is a custom hashmap for Project 2. I needed to make a map which would make sense for either Rooms or Guests. This map would
  * work with generic data types. I opted to make it as specialized as possible, so
  * that I can leverage the fact that it is custom in implementation 
  */
-public class ProjectHashMap
-{
+
+public class ProjectHashMap {
+
     ProjectEntry[] buckets; // This is the foundation of the hash table.
 
+    // just one constructor - we don't want values added at this point.
     public ProjectHashMap() {
         buckets = new ProjectEntry[100];
     }
+
+    /**
+    * Method for adding values to the map. Works exactly like java implementation of hashmap.
+    */
 
     public void put(String key, Object val) {
         ProjectEntry<String, Object> addEntry = new ProjectEntry<>(key, val); // this is the entry to be added
@@ -18,7 +24,7 @@ public class ProjectHashMap
         int placementBucket = determineBucket(key); // this is how we find our bucket for the new entry
 
         ProjectEntry<String, Object> curr = buckets[placementBucket];
-        
+
         if(curr == null) {
             buckets[placementBucket] = addEntry; // if bucket empty, we can add now
         }
@@ -37,6 +43,10 @@ public class ProjectHashMap
         }
     }
 
+    /**
+     * method for retrieving values from hashmap.
+     */
+    
     public Object get(String key) {
         int currentBucket = determineBucket(key); // find the bucket this value might be in
         if(buckets[currentBucket] == null) { // if the bucket is empty, no value
@@ -54,6 +64,9 @@ public class ProjectHashMap
         }
     }
 
+    /**
+     * Removes value from the hashmap.
+     */
     public ProjectEntry<String, Object> remove(String key) {
         int currentBucket = determineBucket(key); // finds correct bucket to check
         if(buckets[currentBucket] == null) { // if the bucket is null, no values
@@ -82,7 +95,10 @@ public class ProjectHashMap
         return null;
     }
 
-    //Hopefully similar to Java's keyset method
+    /**
+     * returns a HashSet of keys in the map. Essentially a linked list traversal through
+     * keys stored in buckets.
+     */
     public HashSet getKeySet() {
         HashSet<String> set = new HashSet<>();
         for(int i = 0; i < buckets.length; i++) { // iterates through each bucket
@@ -94,20 +110,26 @@ public class ProjectHashMap
         }
         return set;
     }
-    
-    
+
+    /**
+     * returns a ProjectLinkedList view of the values in the list.
+     */
     public ProjectLinkedList getValuesList() {
-        ProjectLinkedList<Object> returnList = new ProjectLinkedList();
+        ProjectLinkedList<Object> returnList = new ProjectLinkedList(); // make return list
         for(int i = 0; i < buckets.length; i++) {
-            ProjectEntry curr = buckets[i];
-            while(curr != null) {
-                returnList.add(curr.value);
-                curr = curr.next;
+            ProjectEntry curr = buckets[i]; // iterate through buckets
+            while(curr != null) { // essentially a linked list traversal through the buckets
+                returnList.add(curr.value); // adds values to return list
+                curr = curr.next; // movve position
             }   
         }
-        return returnList;
+        return returnList; // returns a list of just the values, without the key
     }
-    
+
+    /**
+     * Determines which bucket the value should be appended to - this utilizes my custom
+     * implementations of hashing in the 
+     */
     private int determineBucket(String key) {
         // we don't want a huge array because our lists probably won't be very big - if we need
         // to scale this for any reason, we could increase the size of the array and take the 

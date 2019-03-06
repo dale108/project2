@@ -1,4 +1,8 @@
-
+/**
+ * This is a list interface implementation. Really, this only exists because we want
+ * ProjectLinkedList to both implement list and extend iterable - this requires a second class. 
+ * 
+ */
 public interface List<E> extends Iterable<E> {
     public int size();
 

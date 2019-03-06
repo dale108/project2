@@ -1,4 +1,5 @@
 import java.util.*;
+
 /**
  * This is a doubly linked, circular list which can hold any type of element.  
  *
@@ -190,11 +191,58 @@ public class ProjectLinkedList<E> implements List<E>
             }
         }
     }
-    
+
+    public Room[] toArray() {
+        Room[] arr = new Room[size];
+
+        LinkedListNode curr = head.next;
+        for(int i = 0; i < size; i++) {
+            arr[i] = (Room) curr.data;
+            curr = curr.next;
+        }
+        mergeSort(arr);
+        return arr;
+    }
+
+    public Room[] mergeSort(Room[] arr) {
+
+        if(arr.length > 1) {
+
+            Room[] left = Arrays.copyOfRange(arr, 0, arr.length/2);
+            Room[] right = Arrays.copyOfRange(arr, arr.length/2, arr.length);
+
+            mergeSort(left);
+            mergeSort(right);
+
+            merge(arr, left, right);
+
+           
+        }
+        return arr;
+    }
+
+    public void merge(Room[] result, Room[] left, Room[] right) {
+        int i1 = 0; 
+        int i2 = 0;
+        Room a = (Room) left[i1];
+        Room b = (Room) right[i2];
+        int comparison =  a.compareTo(b);
+        for(int i = 0; i < result.length; i++) {
+            if( i2 >= right.length || i1 < left.length && comparison <= 0) {
+                result[i] = left[i1];
+                i1++;
+            }
+            else {
+                result[i] = right[i2];
+                i2++;
+            }
+        }
+    }
 
     /**
      * Nested classes make this implementation easier - this way we don't need getters and
-     * setters for next, previous and data fields.
+     * setters for next, previous and data fields. Has 4 constructors to make the class as
+     * as possible.
      */
     private static class LinkedListNode<E> {
         public E data;
@@ -265,5 +313,6 @@ public class ProjectLinkedList<E> implements List<E>
             size--;
             removeOK = false;
         }
+
     }
 }

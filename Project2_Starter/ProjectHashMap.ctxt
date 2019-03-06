@@ -1,18 +1,24 @@
 #BlueJ class context
 comment0.target=ProjectHashMap
-comment0.text=\n\ I\ needed\ to\ make\ a\ map\ which\ would\ make\ sense\ for\ either\ Rooms\ or\ Guests.\ This\ map\ would\n\ work\ with\ generic\ data\ types.\ I\ opted\ to\ make\ it\ as\ specialized\ as\ possible,\ so\n\ that\ I\ can\ leverage\ the\ fact\ that\ it\ is\ custom\ in\ implementation\ \n
+comment0.text=\n\ This\ is\ a\ custom\ hashmap\ for\ Project\ 2.\ I\ needed\ to\ make\ a\ map\ which\ would\ make\ sense\ for\ either\ Rooms\ or\ Guests.\ This\ map\ would\n\ work\ with\ generic\ data\ types.\ I\ opted\ to\ make\ it\ as\ specialized\ as\ possible,\ so\n\ that\ I\ can\ leverage\ the\ fact\ that\ it\ is\ custom\ in\ implementation\ \n
 comment1.params=
 comment1.target=ProjectHashMap()
 comment2.params=key\ val
 comment2.target=void\ put(java.lang.String,\ java.lang.Object)
+comment2.text=\n\ Method\ for\ adding\ values\ to\ the\ map.\ Works\ exactly\ like\ java\ implementation\ of\ hashmap.\n
 comment3.params=key
 comment3.target=java.lang.Object\ get(java.lang.String)
+comment3.text=\n\ method\ for\ retrieving\ values\ from\ hashmap.\n
 comment4.params=key
 comment4.target=ProjectHashMap.ProjectEntry\ remove(java.lang.String)
+comment4.text=\n\ Removes\ value\ from\ the\ hashmap.\n
 comment5.params=
 comment5.target=java.util.HashSet\ getKeySet()
+comment5.text=\n\ returns\ a\ HashSet\ of\ keys\ in\ the\ map.\ Essentially\ a\ linked\ list\ traversal\ through\n\ keys\ stored\ in\ buckets.\n
 comment6.params=
 comment6.target=ProjectLinkedList\ getValuesList()
+comment6.text=\n\ returns\ a\ ProjectLinkedList\ view\ of\ the\ values\ in\ the\ list.\n
 comment7.params=key
 comment7.target=int\ determineBucket(java.lang.String)
+comment7.text=\n\ Determines\ which\ bucket\ the\ value\ should\ be\ appended\ to\ -\ this\ utilizes\ my\ custom\n\ implementations\ of\ hashing\ in\ the\ \n
 numComments=8

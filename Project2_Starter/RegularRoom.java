@@ -10,12 +10,7 @@ public class RegularRoom extends Room
 {
     /* CLASS CONSTANTS */
     private static final String ROOM_TYPE = "Regular";
-    
-    public RegularRoom(String ro) 
-    {
-        super(ro);
-    }
-    
+
     /**
      * Constructor for RegularRoom object
      * Calls super method to construct Room object
@@ -29,9 +24,18 @@ public class RegularRoom extends Room
     {
         super( roomNum, floor, capacity, bedType );
     }
-    
+
+    /**
+     * This is a constructor for test methods. I am choosing to leave it in the program because
+     * it is ustilized in testMain to demonstrate the custom stack implementation.
+     */
+    public RegularRoom(String num) 
+    {
+        super(num);
+    }
+
     /* ACCESSOR METHODS */
-    
+
     /**
      * Returns the price of the room per night, accounting for which floor the room is on 
      * (Regular room has no extra charges unless on floors 6-10).
@@ -43,30 +47,28 @@ public class RegularRoom extends Room
     public double getRate()
     {
         double result = super.getBaseRate();
-        
+
         if ( this.getFloor() > 5 && this.getFloor() < 11 )
         {
             result *= 1.03;
         }
-        
+
         return result;
     }
-    
+
     /**
      * Returns the Room's RoomType as a String.
      * 
      * @return (String) the room's RoomType
      */
-    
+
     @Override
     public String getRoomType()
     {
         return ROOM_TYPE;
     }
-    
-    
+
     /* OTHER METHODS */
-    
     /**
      * Overrides the abstract Room Class's toString() method. 
      * For example: 'Regular Room: 405, Floor: 4, BedType: DOUBLE, Capacity: 4,
@@ -78,6 +80,6 @@ public class RegularRoom extends Room
     public String toString()
     {
         return ROOM_TYPE + " " + super.toString() + 
-                ", PricePerNight: " + String.format("$ %.2f", this.getRate());        
+        ", PricePerNight: " + String.format("$ %.2f", this.getRate());        
     }
 }

@@ -1,11 +1,12 @@
 #BlueJ class context
 comment0.target=RegularRoom
 comment0.text=\n\ Class\ Regular\ Room\ for\ Hotel\ Burger.\n\ No\ additional\ costs\ from\ abstract\ class\ Room.\n\n\ @author\ Dale\ Berg,\ Nick\ Coyle,\ Megan\ Laine,\ Steven\ Liu\n\ @version\ 01/21/2019\n
-comment1.params=ro
-comment1.target=RegularRoom(java.lang.String)
-comment2.params=roomNum\ floor\ capacity\ bedType
-comment2.target=RegularRoom(java.lang.String,\ int,\ int,\ java.lang.String)
-comment2.text=\n\ Constructor\ for\ RegularRoom\ object\n\ Calls\ super\ method\ to\ construct\ Room\ object\n\ \n\ @param\ roomNum\ (String)\ the\ room\ number\ of\ the\ room\n\ @param\ floor\ (int)\ the\ floor\ where\ room\ located\n\ @param\ capacity\ (int)\ the\ human\ capacity\ of\ the\ room\n\ @param\ bedType\ (String)\ the\ bedtype\ of\ the\ room\n
+comment1.params=roomNum\ floor\ capacity\ bedType
+comment1.target=RegularRoom(java.lang.String,\ int,\ int,\ java.lang.String)
+comment1.text=\n\ Constructor\ for\ RegularRoom\ object\n\ Calls\ super\ method\ to\ construct\ Room\ object\n\ \n\ @param\ roomNum\ (String)\ the\ room\ number\ of\ the\ room\n\ @param\ floor\ (int)\ the\ floor\ where\ room\ located\n\ @param\ capacity\ (int)\ the\ human\ capacity\ of\ the\ room\n\ @param\ bedType\ (String)\ the\ bedtype\ of\ the\ room\n
+comment2.params=num
+comment2.target=RegularRoom(java.lang.String)
+comment2.text=\n\ This\ is\ a\ constructor\ for\ test\ methods.\ I\ am\ choosing\ to\ leave\ it\ in\ the\ program\ because\n\ it\ is\ ustilized\ in\ testMain\ to\ demonstrate\ the\ custom\ stack\ implementation.\n
 comment3.params=
 comment3.target=double\ getRate()
 comment3.text=\n\ Returns\ the\ price\ of\ the\ room\ per\ night,\ accounting\ for\ which\ floor\ the\ room\ is\ on\ \n\ (Regular\ room\ has\ no\ extra\ charges\ unless\ on\ floors\ 6-10).\n\ Overrides\ the\ abstract\ class\ Room's\ getRate()\ method.\n\ \n\ @return\ result\ (double)\ representing\ nightly\ price\ of\ RegularRoom\n

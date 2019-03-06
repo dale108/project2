@@ -1,9 +1,10 @@
 
 /**
- * Project 
+ * ProjectBST is a custom implementation of a binary search tree for Project 2. It contains
+ * standard methods such as add, remove and contains as well as custom methods for use in the
+ * program, such as find guest.
  *
  * @author Dale Berg
- * @version (a version number or a date)
  */
 public class ProjectBST<E extends Comparable<E>>{
     private BSTNode<E> overallRoot; 
@@ -76,10 +77,10 @@ public class ProjectBST<E extends Comparable<E>>{
     }
 
     /**
-     * REmove was the move challenging method ot write in the entire program. Essentially,
-     * we traverse the tree looking for the value passed as an argument, once we've found it,
+     * Remove was the move challenging method to write in the entire program. Essentially,
+     * we traverse the tree looking for the value passed as an argument and once we've found it,
      * we traverse the right subtree from the value to be removed until we find the largest
-     * value in that subtree (the rightmost leaf) then we set the data field of the branch we
+     * value in that subtree (the rightmost leaf). Then we set the data field of the branch we
      * are attempting to remove to the data value of the leaf. If the value to be removed
      * is a leaf, then we can simply set the connection to it to null. I 've written detailed
      * algorithm notes below. 
@@ -89,7 +90,7 @@ public class ProjectBST<E extends Comparable<E>>{
             remove(overallRoot, value); // recusive call
         }
         catch (IllegalArgumentException e) {
-            System.out.println("couldn't find value to remove"); // try catch so program will not crash
+            System.out.println("couldn't find value to remove"); // try/catch so program will not crash
         }
     }
 
@@ -143,15 +144,15 @@ public class ProjectBST<E extends Comparable<E>>{
     }
 
     private boolean contains(BSTNode n, E target) {
-        if(n == null) {
+        if(n == null) { // this is if we have traversed the entire list and not found value
             return false;
         }
         else {
-            int compare = target.compareTo((E) n.data);
+            int compare = target.compareTo((E) n.data); // this leverages custom compareTo methods
             if (compare == 0) {
                 return true;
-            } else if (compare < 0) {
-                return contains(n.left, target);
+            } else if (compare < 0) { // control structure to go left or right
+                return contains(n.left, target); 
             } else { 
                 return contains(n.right, target);
             }
@@ -214,6 +215,9 @@ public class ProjectBST<E extends Comparable<E>>{
         printGuestSideways(overallRoot, 0);
     }
 
+    /**
+     * Creates a sideways structural view of the data structure, helpful for testing.
+     */
     private void printGuestSideways(BSTNode root, int level) {
         if (root != null) {
             printGuestSideways(root.right, level + 1);

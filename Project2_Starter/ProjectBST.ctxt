@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=ProjectBST
-comment0.text=\n\ Project\ \n\n\ @author\ Dale\ Berg\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ ProjectBST\ is\ a\ custom\ implementation\ of\ a\ binary\ search\ tree\ for\ Project\ 2.\ It\ contains\n\ standard\ methods\ such\ as\ add,\ remove\ and\ contains\ as\ well\ as\ custom\ methods\ for\ use\ in\ the\n\ program,\ such\ as\ find\ guest.\n\n\ @author\ Dale\ Berg\n
 comment1.params=
 comment1.target=ProjectBST()
 comment1.text=\n\ Constructor\ 1\n
@@ -27,6 +27,7 @@ comment18.target=void\ printGuestSideways()
 comment18.text=\n\ This\ is\ a\ custom\ implementation\ of\ the\ print\ sideways\ method\ we\ were\ introduced\ to\ in\n\ the\ text.\ The\ values\ in\ the\ search\ tree\ are\ ordered\ based\ on\ phoneNumber,\ so\ it\ will\n\ print\ a\ list\ ordered\ by\ phoen\ number.\ \n
 comment19.params=root\ level
 comment19.target=void\ printGuestSideways(ProjectBST.BSTNode,\ int)
+comment19.text=\n\ Creates\ a\ sideways\ structural\ view\ of\ the\ data\ structure,\ helpful\ for\ testing.\n
 comment2.params=root
 comment2.target=ProjectBST(ProjectBST.BSTNode)
 comment2.text=\n\ Constructor\ 2\n
@@ -41,7 +42,7 @@ comment6.params=root\ phone
 comment6.target=Guest\ findGuest(ProjectBST.BSTNode,\ java.lang.String)
 comment7.params=value
 comment7.target=void\ remove(java.lang.Comparable)
-comment7.text=\n\ REmove\ was\ the\ move\ challenging\ method\ ot\ write\ in\ the\ entire\ program.\ Essentially,\n\ we\ traverse\ the\ tree\ looking\ for\ the\ value\ passed\ as\ an\ argument,\ once\ we've\ found\ it,\n\ we\ traverse\ the\ right\ subtree\ from\ the\ value\ to\ be\ removed\ until\ we\ find\ the\ largest\n\ value\ in\ that\ subtree\ (the\ rightmost\ leaf)\ then\ we\ set\ the\ data\ field\ of\ the\ branch\ we\n\ are\ attempting\ to\ remove\ to\ the\ data\ value\ of\ the\ leaf.\ If\ the\ value\ to\ be\ removed\n\ is\ a\ leaf,\ then\ we\ can\ simply\ set\ the\ connection\ to\ it\ to\ null.\ I\ 've\ written\ detailed\n\ algorithm\ notes\ below.\ \n
+comment7.text=\n\ Remove\ was\ the\ move\ challenging\ method\ to\ write\ in\ the\ entire\ program.\ Essentially,\n\ we\ traverse\ the\ tree\ looking\ for\ the\ value\ passed\ as\ an\ argument\ and\ once\ we've\ found\ it,\n\ we\ traverse\ the\ right\ subtree\ from\ the\ value\ to\ be\ removed\ until\ we\ find\ the\ largest\n\ value\ in\ that\ subtree\ (the\ rightmost\ leaf).\ Then\ we\ set\ the\ data\ field\ of\ the\ branch\ we\n\ are\ attempting\ to\ remove\ to\ the\ data\ value\ of\ the\ leaf.\ If\ the\ value\ to\ be\ removed\n\ is\ a\ leaf,\ then\ we\ can\ simply\ set\ the\ connection\ to\ it\ to\ null.\ I\ 've\ written\ detailed\n\ algorithm\ notes\ below.\ \n
 comment8.params=root\ value
 comment8.target=ProjectBST.BSTNode\ remove(ProjectBST.BSTNode,\ java.lang.Comparable)
 comment9.params=root
