@@ -1,12 +1,6 @@
 #BlueJ class context
 comment0.target=TestMain
-comment0.text=\n\ This\ is\ where\ I\ tested\ some\ of\ the\ new\ data\ structures.\ The\ Hotel\ program\ is\ pretty\ complex\n\ at\ this\ point,\ so\ it's\ helpful\ to\ see\ simpler\ representations\ of\ the\ new\ processes.\n\ \n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ This\ is\ where\ I\ tested\ some\ of\ the\ new\ data\ structures.\ The\ Hotel\ program\ is\ pretty\ complex\n\ at\ this\ point,\ so\ it's\ helpful\ to\ see\ simpler\ representations\ of\ some\ the\ new\ processes\n\ which\ are\ buried\ in\ the\ algorithms.\n\ \n\n\ @author\ Dale\ Berg\n
 comment1.params=args
 comment1.target=void\ main(java.lang.String[])
-comment2.params=a
-comment2.target=void\ mergeR(int[])
-comment3.params=result\ left\ right
-comment3.target=void\ merge(int[],\ int[],\ int[])
-comment4.params=arr
-comment4.target=void\ bubbleSort(int[])
-numComments=5
+numComments=2

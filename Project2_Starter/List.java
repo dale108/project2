@@ -22,5 +22,5 @@ public interface List<E> extends Iterable<E> {
 
     public void set(int index, E value);
 
-    public void reset();
+    public void reset(); // need reset for doubly linke dlists.
 }

@@ -12,13 +12,14 @@ public class ProjectBST<E extends Comparable<E>>{
     /** 
      * Constructors
      */
+
     /**
      * Constructor 1
      */
     public ProjectBST() {
         overallRoot = null;
     }
-    
+
     /**
      * Constructor 2
      */
@@ -69,18 +70,18 @@ public class ProjectBST<E extends Comparable<E>>{
             else if(g.getPhoneNum().compareTo(phone) < 0) {
                 return findGuest(root.right, phone);
             }
-           else {
-               return findGuest(root.left, phone);
+            else {
+                return findGuest(root.left, phone);
             }
         }
         return null;
     }
 
     /**
-     * Remove was the move challenging method to write in the entire program. Essentially,
+     * Remove was the most challenging method to write in the entire program. Essentially,
      * we traverse the tree looking for the value passed as an argument and once we've found it,
      * we traverse the right subtree from the value to be removed until we find the largest
-     * value in that subtree (the rightmost leaf). Then we set the data field of the branch we
+     * value in that subtree (the leftmost leaf). Then we set the data field of the branch we
      * are attempting to remove to the data value of the leaf. If the value to be removed
      * is a leaf, then we can simply set the connection to it to null. I 've written detailed
      * algorithm notes below. 
@@ -118,7 +119,7 @@ public class ProjectBST<E extends Comparable<E>>{
                 curr = curr.right; // go right
             }
             else { // at this point we've found our value to be removed
-                BSTNode temp = findMinFromRight(curr.right); 
+                BSTNode temp = findMinFromRight(curr.right); // custom helper for this method
                 curr.data = temp.data;
                 curr.right = remove(curr.right, (E) temp.data); // call remove to trim the right we got copied value from.
             }
@@ -158,12 +159,14 @@ public class ProjectBST<E extends Comparable<E>>{
             }
         }
     }
-    
+
     /**
      * Printing methods.
      */
 
-    // prints values in order
+    /**
+     * Prints values in order
+     */
     public void print() {
         printInorder(overallRoot);
     }
@@ -182,7 +185,7 @@ public class ProjectBST<E extends Comparable<E>>{
 
     private void printPreorder(BSTNode root) {
         if(root == null) {
-
+            // do nothing, break from rescursion calls.
         }
         else {
             System.out.println(root.data);
@@ -240,12 +243,14 @@ public class ProjectBST<E extends Comparable<E>>{
         public BSTNode left;
         public BSTNode right;
 
+        //basic constructor 
         public BSTNode(E data) {
             this.data = data;
             this.left = null;
             this.right = null;
         }
 
+        //robust constructor
         public BSTNode(E data, BSTNode<E> left, BSTNode<E> right) {
             this.data = data;
             this.left = left;

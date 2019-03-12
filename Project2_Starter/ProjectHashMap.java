@@ -17,7 +17,6 @@ public class ProjectHashMap {
     /**
     * Method for adding values to the map. Works exactly like java implementation of hashmap.
     */
-
     public void put(String key, Object val) {
         ProjectEntry<String, Object> addEntry = new ProjectEntry<>(key, val); // this is the entry to be added
 
@@ -46,7 +45,6 @@ public class ProjectHashMap {
     /**
      * method for retrieving values from hashmap.
      */
-    
     public Object get(String key) {
         int currentBucket = determineBucket(key); // find the bucket this value might be in
         if(buckets[currentBucket] == null) { // if the bucket is empty, no value

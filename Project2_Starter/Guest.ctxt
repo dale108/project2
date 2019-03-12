@@ -41,6 +41,7 @@ comment20.target=int\ compareTo(Guest)
 comment20.text=\n\ We\ need\ to\ oraganize\ Guests\ so\ that\ there\ is\ no\ possibility\ of\ duplicates,\ and\ the\n\ most\ logical\ way\ to\ accomplish\ this\ is\ by\ comparing\ based\ on\ phone\ number.\n
 comment21.params=
 comment21.target=Room\ getLastRoom()
+comment21.text=\n\ This\ method\ utilizes\ a\ custom\ stack\ class\ to\ ensure\ the\ room\ returned\ to\ main\ when\ utilizing\n\ the\ express\ check-in\ function\ is\ an\ available\ room.\ A\ stack\ is\ the\ perfect\ data\ structure\n\ to\ use\ in\ this\ case,\ because\ of\ it's\ last\ in,\ first\ out\ dynamic.\n
 comment22.params=
 comment22.target=void\ printRoomHistory()
 comment22.text=\n\ This\ is\ a\ test\ method\ I've\ chosen\ to\ leave\ in\ for\ convinience.\ It's\ plausibe\ that\ a\n\ client\ might\ want\ to\ see\ the\ room\ history\ of\ a\ certain\ guest.\n

@@ -389,6 +389,10 @@ public class Reservation implements Comparable<Reservation>
         // it will also make it reserved/not-bookable by other guests.
         setRoom(other);
     }
+    
+    /**
+     * PUBLIC METHODS (non set/get)
+     */
 
     /**
      * Sets the Reservation's amountPaid field to amountDue and paymentDue field to 0.0; returns a string confirming payment.
@@ -426,6 +430,7 @@ public class Reservation implements Comparable<Reservation>
         "= = = = = = = = = = = = = = = = = = = = = = = =";
     }
 
+    // enables sorting
     @Override
     public int compareTo(Reservation other) {
         if(this.reservationID < other.getReservationID()) {

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=ProjectStack
-comment0.text=\n\ Custom\ stack\ implementation\ for\ Project\ 2.\ This\ is\ utilized\ in\ implementing\ the\ guest\n\ history\ functionality.\ Specifically\ I\ needed\ a\ way\ to\ search\ through\ the\ guests.\ Specialized\ \n\ data\ structure\ only\ compatible\ with\ objects\ of\ type\ Room.\n\ \n\ @author\ Dale\ Berg\n
+comment0.text=\n\ Custom\ stack\ implementation\ for\ Project\ 2.\ This\ is\ utilized\ in\ the\ implementtion\ of\ the\ guest\n\ history\ functionality.\ Specifically,\ I\ needed\ a\ way\ to\ search\ through\ the\ guests.\ This\ Specialized\ \n\ data\ structure\ is\ only\ compatible\ with\ objects\ of\ type\ Room.\n\ \n\ @author\ Dale\ Berg\n
 comment1.params=
 comment1.target=ProjectStack()
 comment1.text=\ \n\ 2\ constructors\ -\ one\ for\ default\ size.\ The\ second\ constructor\ is\ prefereable,\ as\ it\n\ only\ utilizes\ memory\ which\ we\ actually\ need.\n

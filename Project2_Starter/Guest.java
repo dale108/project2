@@ -271,6 +271,11 @@ public class Guest implements Comparable<Guest>
             return this.phoneNumber.compareTo(other.getPhoneNum());
     }
         
+    /**
+     * This method utilizes a custom stack class to ensure the room returned to main when utilizing
+     * the express check-in function is an available room. A stack is the perfect data structure
+     * to use in this case, because of it's last in, first out dynamic.
+     */
     public Room getLastRoom() {
         ProjectStack stack = new ProjectStack(roomHistory.size());
         for(Room room: roomHistory) {

@@ -51,6 +51,7 @@ public abstract class Room
         bedType = null;
         isAvailable = false;
     }
+    
     /* ACCESSOR METHODS */
     
     /**

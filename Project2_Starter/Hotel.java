@@ -115,6 +115,12 @@ public class Hotel
             this.addRoom(room);
         }
     }
+    
+    /**
+     * ***************
+     * GUEST TREE METHODS
+     * ****************
+     */
 
     /**
      * This method is specific to project two. For the program to run optimally we need the
@@ -142,6 +148,11 @@ public class Hotel
     }
     
     /**
+     * HOTEL BUILDERS
+     */
+    
+    
+    /**
      * This is the most expensive method in the whole program. Luckily, it only executes at 
      * startup.
      */
@@ -152,17 +163,7 @@ public class Hotel
          
         }
     }
-
-    /**
-     * Adds room object to our rooms list
-     *
-     * @param room(Room) represents a room object.
-     */
-    public void addRoom(Room room)
-    {
-        rooms.put(room.getRoomNumber(), room);
-    }
-
+    
     /**
      * Reads data from a .txt file and stores it in this Room-object ArrayList.
      * Assumes that the text file is in a correct template. (Assume no mistakes in .txt file)
@@ -171,7 +172,7 @@ public class Hotel
      * @throws FileNotFoundException if the file doesn't exist or cannot be read.
      * @throws IllegalArgumentException if the file doesn't match expected format.
      */
-    public void fillReservationArrayList(String fileName) throws FileNotFoundException
+    public void fillReservationLinkedList(String fileName) throws FileNotFoundException
     {
         File inFile = new File(fileName);
         input = new Scanner(inFile);
@@ -300,6 +301,17 @@ public class Hotel
      * ROOM METHODS
      * *****************
      */
+    
+        /**
+     * Adds room object to our rooms list
+     *
+     * @param room(Room) represents a room object.
+     */
+    public void addRoom(Room room)
+    {
+        rooms.put(room.getRoomNumber(), room);
+    }
+
 
     /**
      * Returns whether or not a room is available.
@@ -530,6 +542,10 @@ public class Hotel
         }
         return arr;
     }  
+    
+    public ProjectLinkedList<Reservation> getAllReservations() {
+        return reservations;
+    }
 
     public ProjectBST getGuestTree() {
         return guestTree;
@@ -580,9 +596,6 @@ public class Hotel
         }
         return invoices;
     }
-    /**
-     * *****************
-     */
 
     /**********************
      * RESERVATION METHODS
@@ -834,6 +847,7 @@ public class Hotel
         phoneNumber + "\n" +
         "=========================" + "\n";
     }
+    
     private class HotelBuilder {
 
         private Scanner input;
@@ -843,6 +857,8 @@ public class Hotel
         private Hotel hotel;
 
     }
+    
+    
 
     /**
      * A method to test basic functionality of this class
@@ -860,7 +876,7 @@ public class Hotel
         if (!testHotel.getPhoneNumber().equals(phone)) System.out.println("Hotel phoneNum is supposed to be " + phone + ", but is " + testHotel.getPhoneNumber());
 
         // add 4 existing/saved test reservations (from a text file) to the Hotel object
-        testHotel.fillReservationArrayList("testfilehotelreservations.txt");
+        testHotel.fillReservationLinkedList("testfilehotelreservations.txt");
         if (testHotel.getAllRoomsCount() != 65) System.out.println("Hotel.getAllRoomsCount() is supposed to be 65, but is " + testHotel.getAllRoomsCount());
         if (testHotel.getTotalOccupiedRooms() != 1) System.out.println("Hotel.getTotalOccupiedRooms() is supposed to be 1, but is " + testHotel.getTotalOccupiedRooms());
         if (testHotel.getTotalReservedRooms() != 1) System.out.println("Hotel.getTotalReservedRooms() is supposed to be 1, but is " + testHotel.getTotalReservedRooms());

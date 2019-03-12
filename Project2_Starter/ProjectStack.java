@@ -1,8 +1,8 @@
 import java.util.Arrays;
 /**
- * Custom stack implementation for Project 2. This is utilized in implementing the guest
- * history functionality. Specifically I needed a way to search through the guests. Specialized 
- * data structure only compatible with objects of type Room.
+ * Custom stack implementation for Project 2. This is utilized in the implementtion of the guest
+ * history functionality. Specifically, I needed a way to search through the guests. This Specialized 
+ * data structure is only compatible with objects of type Room.
  * 
  * @author Dale Berg
  */

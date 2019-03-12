@@ -25,14 +25,14 @@ public class Main
         hotel = new Hotel("HotelBurgerRooms.txt");
 
         // add all existing/saved reservations (from a text file) to the Hotel object
-        hotel.fillReservationArrayList("HotelBurgerReservations.txt");
+        hotel.fillReservationLinkedList("HotelBurgerReservations.txt");
 
         // this will populate the guest tree with all current guests at start up.
         hotel.fillGuestTree();
-        
+
         // This populates the rental history for guests in our tree
         hotel.buildGuestHistories();
- 
+
         // print some hotel details (name, address, phone number) to the console
         System.out.println(hotel);
 
@@ -40,8 +40,8 @@ public class Main
         input = new Scanner(System.in);
 
         // show the main menu for the console app to the user
-       mainMenu();      
-       //hotel.testTry();
+        mainMenu();      
+        //hotel.testTry();
     }
 
     /* HELPER METHODS */
@@ -55,7 +55,7 @@ public class Main
     private static boolean isInt(String s) 
     {
         try {
-            Integer.parseInt(s);
+            Integer.parseInt(s); // determines whether the argument can be interpreted as an integer
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -71,7 +71,7 @@ public class Main
      */
     public static int getUserInputInt(int lowest)
     {
-        selection = input.next();        
+        selection = input.next();
 
         while (!isInt(selection) || Integer.parseInt(selection) < lowest) 
         {
@@ -119,65 +119,6 @@ public class Main
             selection = input.next();  
         }        
         mainMenu();  
-    }
-
-    /**
-     * Looks up all reservations under a last name and finds the right one. 
-     * Used a couple times by the menus. (For ex: menu(3))
-     * 
-     * @return reservation (Reservation) a reservation object matched by last name
-     */
-    private static Reservation getReservationByLastName() throws FileNotFoundException 
-    {
-        Reservation reservation = null;        
-        String lastName = "";        
-        int reservationID = -1;
-        ProjectLinkedList<Reservation> reservationsByName = new ProjectLinkedList<Reservation>();        
-
-        System.out.println(" To look up the reservation, we'll need the guest's last name.");
-        System.out.println(" What is the guest's last name?");  
-        lastName = input.next();        
-        reservationsByName = hotel.getReservationsByLastName(lastName);
-
-        while ( (reservationsByName.size() < 1) && !lastName.equals("0") ) 
-        {
-            System.out.println(" Sorry! No matching reservations were found.");
-            System.out.println(" Type 0 to exit -OR- Enter a different last name to try again:");  
-            lastName = input.next();
-            reservationsByName = hotel.getReservationsByLastName(lastName);
-        }
-
-        if (lastName.equals("0")) 
-        {
-            mainMenu();
-        }          
-
-        System.out.println(" Here are the reservations under that last name; " + "\n" +
-            "    Which would you like to choose? " + "\n" +
-            "    -- Enter ID# from below list " + "\n" +
-            "    -- Or press 0 to return to main menu");
-        for (Reservation res: reservationsByName) 
-        {
-            System.out.println(res);
-        }
-
-        reservationID = getUserInputInt(0);
-        reservation = hotel.getReservation(reservationID);
-
-        while ( (reservation == null) && (reservationID != 0) ) 
-        {
-            System.out.println(" ReservationID was not entered correctly, try again. " +
-                "Or press 0 to return to main menu");
-            reservationID = getUserInputInt(1);
-            reservation = hotel.getReservation(reservationID);
-        }
-
-        if (reservationID == 0) 
-        {
-            mainMenu();
-        }          
-
-        return reservation;    
     }
 
     //** MENU METHODS **/
@@ -274,7 +215,7 @@ public class Main
         nights = getUserInputInt(1);
 
         // check to see if guest is already in the database
-        
+
         if(checkHistoryStatus()) {
             boolean isValidPhone = false;
             while(!isValidPhone) {
@@ -287,15 +228,16 @@ public class Main
                     System.out.println("Please try again");      
                 }
             }
+            
             Guest g = hotel.getGuestByPhoneNum(phoneNumber);
             Room r = g.getLastRoom();
-            
+
             if(r == null) {
                 System.out.println("No room history for this guest");
                 System.out.println("Please try again");
                 makeReservationMenu();
             }
-            
+
             try
             {
 
@@ -315,7 +257,7 @@ public class Main
             }
         }
         else {
-            
+
             // get price range of user
             System.out.println("What is you price range?");
             System.out.println("Enter your selection:" + '\n' +
@@ -419,8 +361,8 @@ public class Main
 
                 // add the guest to the hotels guest tree.
                 hotel.addGuest(guest);
-                
-                guest.addRoomToHistory(room);
+
+                guest.addRoomToHistory(room); // add room to the guest's room history
             } catch(Exception e) {
                 System.out.println("Error: " + e);
                 System.out.println("Please try again");
@@ -433,7 +375,10 @@ public class Main
         System.out.println("= = = = = = = = = = = = = = = = = = = = = = = =");
         returnToMainMenuPrompt();
     }
-    
+
+    /**
+     * checks if the guest is in our database
+     */
     private static boolean checkHistoryStatus() {
         System.out.println("Have you stayed with us before? Enter 1 for yes or 2 for no: ");
         int select = getUserInputInt(1,2);
@@ -638,7 +583,7 @@ public class Main
         else
         {
             // this saves us adding a method elsewhere
-            guestReservations = hotel.getInactiveReservations();
+            guestReservations = hotel.getAllReservations();
             //guestReservations.addAll(hotel.getActiveReservations());
 
             for(Reservation r : guestReservations)
@@ -780,6 +725,65 @@ public class Main
     }
 
     /**
+     * Looks up all reservations under a last name and finds the right one. 
+     * Used a couple times by the menus. (For ex: menu(3))
+     * 
+     * @return reservation (Reservation) a reservation object matched by last name
+     */
+    private static Reservation getReservationByLastName() throws FileNotFoundException 
+    {
+        Reservation reservation = null;        
+        String lastName = "";        
+        int reservationID = -1;
+        ProjectLinkedList<Reservation> reservationsByName = new ProjectLinkedList<Reservation>();        
+
+        System.out.println(" To look up the reservation, we'll need the guest's last name.");
+        System.out.println(" What is the guest's last name?");  
+        lastName = input.next();        
+        reservationsByName = hotel.getReservationsByLastName(lastName);
+
+        while ( (reservationsByName.size() < 1) && !lastName.equals("0") ) 
+        {
+            System.out.println(" Sorry! No matching reservations were found.");
+            System.out.println(" Type 0 to exit -OR- Enter a different last name to try again:");  
+            lastName = input.next();
+            reservationsByName = hotel.getReservationsByLastName(lastName);
+        }
+
+        if (lastName.equals("0")) 
+        {
+            mainMenu();
+        }          
+
+        System.out.println(" Here are the reservations under that last name; " + "\n" +
+            "    Which would you like to choose? " + "\n" +
+            "    -- Enter ID# from below list " + "\n" +
+            "    -- Or press 0 to return to main menu");
+        for (Reservation res: reservationsByName) 
+        {
+            System.out.println(res);
+        }
+
+        reservationID = getUserInputInt(0);
+        reservation = hotel.getReservation(reservationID);
+
+        while ( (reservation == null) && (reservationID != 0) ) 
+        {
+            System.out.println(" ReservationID was not entered correctly, try again. " +
+                "Or press 0 to return to main menu");
+            reservationID = getUserInputInt(1);
+            reservation = hotel.getReservation(reservationID);
+        }
+
+        if (reservationID == 0) 
+        {
+            mainMenu();
+        }          
+
+        return reservation;    
+    }
+
+    /**
      * Returns an edited/modified ArrayList of Rooms that match user criteria.
      *
      * @param partySize (int) number of people in the group
@@ -809,10 +813,9 @@ public class Main
                 }
             }
         }
-        
-        
 
-        // String.format("$ %.2f", String)
+        Room[] arrToSort = returnList.toArray(); // need an array for merge sort to function
+        returnList = ProjectLinkedList.mergeSort(arrToSort);
         return returnList;
     }
 }

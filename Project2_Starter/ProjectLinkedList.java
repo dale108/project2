@@ -1,15 +1,14 @@
 import java.util.*;
-
 /**
  * This is a doubly linked, circular list which can hold any type of element.  
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Dale Berg
  */
 public class ProjectLinkedList<E> implements List<E>
 {
 
-    LinkedListNode<E> head;
+    //doubly linked, head and end need to be fields
+    LinkedListNode<E> head; 
     LinkedListNode<E> end;
     private int size;
 
@@ -20,7 +19,7 @@ public class ProjectLinkedList<E> implements List<E>
     }
 
     /**
-     *  Adds value to the end of the list.
+     * Adds value to the end of the list.
      */
     public void add(E value) {
         add(size,value); // adds to the end of the list.
@@ -31,17 +30,23 @@ public class ProjectLinkedList<E> implements List<E>
      */
     public void add(int index, E data)  throws IndexOutOfBoundsException {
         checkIndex(index); // ensure that index is valid, otherwise crashes program
-        LinkedListNode<E> curr = nodeAt(index-1);
+        LinkedListNode<E> curr = nodeAt(index-1); // need to stop one before to maintain continuity
         LinkedListNode<E> addNode = new LinkedListNode(data, curr.next, curr);
         curr.next = addNode;
         addNode.next.previous = addNode;
         size++;
     }
 
+    /**
+     * returns true if the object appears in the list, false otherwise.
+     */
     public boolean contains(E value) {
         return indexOf(value) >= 0;
     }
 
+    /**
+     * Returns the value at the index passed as an argument
+     */
     public E get(int idx) {
         checkIndex(idx);
         LinkedListNode<E> curr = nodeAt(idx);
@@ -52,7 +57,7 @@ public class ProjectLinkedList<E> implements List<E>
      * Returns whether or not the list is empty
      */
     public boolean isEmpty() {
-        return size == 0;
+        return size == 0; 
     }
 
     /**
@@ -60,8 +65,8 @@ public class ProjectLinkedList<E> implements List<E>
      */
     public void set(int idx, E newVal) {
         checkIndex(idx);
-        LinkedListNode curr = nodeAt(idx);
-        curr.data = newVal;
+        LinkedListNode curr = nodeAt(idx); // easiest way to jump to index in the program.
+        curr.data = newVal; 
     }
 
     /** 
@@ -71,17 +76,20 @@ public class ProjectLinkedList<E> implements List<E>
         return size;
     }
 
+    /**
+     * Removes the object at the index passed as an argument
+     */
     public void remove(int idx) {
-        checkIndex(idx);
-        LinkedListNode curr = nodeAt(idx-1);
+        checkIndex(idx); // ensures idx is valid
+        LinkedListNode curr = nodeAt(idx-1); // sets curr to one before the value to be removed
         curr.next = curr.next.next;
         curr.next.previous = curr;
-        size--;
+        size--; // decrements size. 
     }
 
-    // List is circular, so this is necessary
+    // Sets state of the links to circular
     public void reset() {
-        head.next = end;
+        head.next = end; 
         end.next = head;
     }
 
@@ -111,7 +119,7 @@ public class ProjectLinkedList<E> implements List<E>
      * the index value is greater or lesser than size/2.
      */
     private LinkedListNode<E> nodeAt(int index) {
-        LinkedListNode<E> curr;
+        LinkedListNode<E> curr; // Must be declared outside loop
         if(index < size/2) { // If the element is nearer to the beginning than the end
             curr = head;
             int count = 0;
@@ -122,7 +130,7 @@ public class ProjectLinkedList<E> implements List<E>
             }
             return curr;
         }
-        else { // identical structture but starting from the end.
+        else { // identical structure but starting from the end.
             curr = end;
             int count = size;
             while(count > index) {
@@ -145,6 +153,10 @@ public class ProjectLinkedList<E> implements List<E>
 
     // This is another custom implementation which is integral to the functioning of the program
     public Object getLastElement() { 
+        /**
+         * Casting the object is necessary here because the class is generic, but the method may
+         * only be use with objects
+         */
         return (Object) end.previous.data;
     }
 
@@ -152,13 +164,13 @@ public class ProjectLinkedList<E> implements List<E>
      * This is straight form the textbook - returns an iterator for the Linked list;
      */
     public Iterator<E> iterator() {
-        return new LinkedIterator();
+        return new LinkedIterator(); 
     }
 
     @Override
     public String toString() {
         if (size == 0) {
-            return "[]";
+            return "[]"; // empty list case
         } else {
             String result = "[" + head.next.data;
             LinkedListNode<E> current = head.next.next;
@@ -177,9 +189,9 @@ public class ProjectLinkedList<E> implements List<E>
      */
     public void removeDuplicates() {
         if(head != null) {
-            LinkedListNode curr = head;
-            while(curr.next != head && curr.next.next != head) {
-                if(curr.data.equals(curr.next.data)) {
+            LinkedListNode curr = head; 
+            while(curr.next != head && curr.next.next != head) { //stops short of end
+                if(curr.data.equals(curr.next.data)) { // tests for equality
                     curr.next = curr.next.next;
                 }
                 else {
@@ -192,23 +204,31 @@ public class ProjectLinkedList<E> implements List<E>
         }
     }
 
+    /**
+     * This is specifically for the merge sort to function - must use an array to implement
+     * merge sort.
+     */
     public Room[] toArray() {
-        Room[] arr = new Room[size];
+        Room[] arr = new Room[size]; // instatntiates an array the size of this list.
 
         LinkedListNode curr = head.next;
         for(int i = 0; i < size; i++) {
-            arr[i] = (Room) curr.data;
+            arr[i] = (Room) curr.data; // sets index of array to the equivalent value of the room list
             curr = curr.next;
         }
-        mergeSort(arr);
+        mergeSort(arr); // merge sort the new array before returning.
         return arr;
     }
 
-    public Room[] mergeSort(Room[] arr) {
+    /**
+     * This is modeled on professional implementations of merge sort. Although this is a general
+     * list which can be used for any type of value, the mergesort will only work for room objects.
+     */
+    public static ProjectLinkedList mergeSort(Room[] arr) {
 
-        if(arr.length > 1) {
+        if(arr.length > 1) { // base case
 
-            Room[] left = Arrays.copyOfRange(arr, 0, arr.length/2);
+            Room[] left = Arrays.copyOfRange(arr, 0, arr.length/2); // 
             Room[] right = Arrays.copyOfRange(arr, arr.length/2, arr.length);
 
             mergeSort(left);
@@ -216,20 +236,23 @@ public class ProjectLinkedList<E> implements List<E>
 
             merge(arr, left, right);
 
-           
         }
-        return arr;
+        ProjectLinkedList newReturn= new ProjectLinkedList();
+        for(int i = 0; i < arr.length; i++) {
+            newReturn.add(arr[i]);
+        }
+        return newReturn;
     }
 
-    public void merge(Room[] result, Room[] left, Room[] right) {
+    public static void merge(Room[] result, Room[] left, Room[] right) {
         int i1 = 0; 
         int i2 = 0;
-        Room a = (Room) left[i1];
-        Room b = (Room) right[i2];
+        Room a = (Room) left[i1]; // sets room a to the room held at i1
+        Room b = (Room) right[i2]; // sets room a to the room held at i2
         int comparison =  a.compareTo(b);
         for(int i = 0; i < result.length; i++) {
             if( i2 >= right.length || i1 < left.length && comparison <= 0) {
-                result[i] = left[i1];
+                result[i] = left[i1]; 
                 i1++;
             }
             else {
@@ -277,19 +300,19 @@ public class ProjectLinkedList<E> implements List<E>
     }
 
     // this is adapted from the textbook - the order of methods will be the same as the
-    // textbook implementation. 
+    // textbook implementation, though I personally build it form that model.
     private class LinkedIterator implements Iterator<E> {
-        private LinkedListNode<E> curr; 
-        private boolean removeOK;  // whether it's okay to remove now
 
-        // post: constructs an iterator for the given list
+        private LinkedListNode<E> curr; 
+        private boolean removeOK;  // whether it's okay to remove the element
+
         public LinkedIterator() {
             curr = head.next;
             removeOK = false;
         }
 
-        public boolean hasNext() {
-            return curr != end;
+        public boolean hasNext() { 
+            return curr != end; // special consideration for doubly linked list
         }
 
         //only works if the iterator has a next value to take.
@@ -313,6 +336,5 @@ public class ProjectLinkedList<E> implements List<E>
             size--;
             removeOK = false;
         }
-
     }
 }
